@@ -1,0 +1,4 @@
+Node.js에 대한 기본 구조 설명
+ - Node.js란 Javascript를 서버측 언어로 사용 하는 플랫폼 이다 이는 웹개발자가 프론트,백앤드 모두 같은 언어를 사용할 수 있게해 효율성을 높인다.
+ - 강의에서 만든 구조는 (index.js,server.js,router.js,requestHandler.js) 이렇게 4개의 파일로 구성 되어 있어 각역할에 맞는 기능을 수행 이로 인해 확장성과 유지보수가 용이하다.
+데이터 베이스에 대한 기본 쿼리 문 설명(UPDATE,SELECT,INSERT,DELETE)
