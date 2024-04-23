@@ -1,7 +1,14 @@
 //조성만
+
+const mariadb  = require('./database/connect/mariadb')
+
 function main(response) {
     console.log('main')
     
+    mariadb.query("SELECT * FROM product",function(err,rows) {
+        console.log(rows);
+    })
+
     response.writeHead(200,{'Content-Type' : 'text/html'});
     response.write('Main page');
     response.end();
