@@ -1,0 +1,79 @@
+<!-- 조성만 -->
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>HTML실습</title>
+</head>
+<body>
+    <!-- 제목 태그 -->
+    <h1>메인 제목: H1 태그</h1>
+    <h2>하위 제목: H2 태그</h2>
+    <h3>더 작은 제목: H3 태그</h3>
+
+    <!-- 텍스트 서식 태그 -->
+    <p><s>이 텍스트는 취소선이 적용되었습니다.</s></p>
+    <p><del>이 텍스트는 삭제된 것으로 표시됩니다.</del></p>
+    <p><ins>이 텍스트는 새로 추가된 것으로 표시됩니다.</ins></p>
+
+    <!-- 하이퍼링크 -->
+    <a href="https://www.naver.com" target="_blank">NAVER로 가기</a>
+
+    <!-- 멀티미디어 태그 -->
+    <figure>
+        <img src="image.jpg" alt="이미지 설명">
+        <figcaption>이미지 캡션입니다.</figcaption>
+    </figure>
+
+    <video controls>
+        <source src="movie.mp4" type="video/mp4">
+        비디오를 지원하지 않는 브라우저입니다.
+    </video>
+
+    <audio controls>
+        <source src="audio.mp3" type="audio/mpeg">
+        오디오를 지원하지 않는 브라우저입니다.
+    </audio>
+
+    <!-- 리스트 태그 -->
+    <ul>
+        <li>첫 번째 아이템</li>
+        <li>두 번째 아이템</li>
+    </ul>
+
+    <!-- 표 생성 태그 -->
+    <table>
+        <thead>
+            <tr>
+                <th>이름</th>
+                <th>나이</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>홍길동</td>
+                <td>30</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- 외부 콘텐츠 임베딩 -->
+    <iframe name="iframe1" src="example.html" width="600" height="400"></iframe>
+    <a href="https://www.naver.com" target="iframe1">Iframe에서 NAVER 열기</a>
+
+    <!-- 폼 태그 -->
+    <form action="" method="get">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username">
+        
+        <select name="fruits" required>
+            <option value="">--Please select an option--</option>
+            <option value="apple">Apple</option>
+            <option value="banana">Banana</option>
+            <option value="cherry">Cherry</option>
+        </select>
+
+        <button type="submit">제출</button>
+    </form>
+</body>
+</html>
