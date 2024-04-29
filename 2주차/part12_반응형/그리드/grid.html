@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+  .grid-container {
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+    grid-template-rows: auto 1fr auto;
+    grid-template-areas:
+      "header slider slider"
+      "header content content"
+      "header footer banner";
+    gap: 10px;
+    height: 100vh;
+    padding: 10px;
+  }
+
+  .header { grid-area: header; background: lightgrey; padding: 20px; }
+  .slider { grid-area: slider; background: lightgrey; padding: 20px; }
+  .content { grid-area: content; background: lightgrey; padding: 20px; }
+  .footer { grid-area: footer; background: lightgrey; padding: 20px; }
+  .banner { grid-area: banner; background: lightgrey; padding: 20px; }
+</style>
+</head>
+<body>
+
+<div class="grid-container">
+  <div class="header">header</div>
+  <div class="slider">slider</div>
+  <div class="content">content</div>
+  <div class="banner">banner</div>
+  <div class="footer">footer</div>
+</div>
+
+</body>
+</html>
+

@@ -1,0 +1,15 @@
+/* 조성만 */
+div {
+    font-size: 20px;
+    background-color: aquamarine;
+
+}
+
+/* 768px초과 ~ 1024px 이하인 구간에서 적용되게 */
+/* @media (min-width:768px) and (max-width:1024px){
+    div{
+        font-size: 30px;
+        background-color: blueviolet;
+    }
+
+} */
