@@ -22,8 +22,8 @@ export const store = {
 
   dateList: [
     {
-      id: 1,
-      date: new Date().toLocaleDateString(),
+      id : 1,
+      date : new Date().toLocaleDateString(),
     },
   ],
   detailList: {},
@@ -49,13 +49,16 @@ export function initStore() {
 
 export function addNewHistory(newHistory) {
   try {
-    // TODO:
-    /**
-     * - store의 detailList 새로 갱신
-     * - store.currentFunds 새로 갱신
-     */
-    store.detailList = null;
-    store.currentFunds = null;
+    console.log("newHistory",newHistory)
+    if(store.detailList[store.todayId]) {
+      store.detailList[store.todayId].push(newHistory);
+    }else{
+      store.detailList[store.todayId] = [newHistory];
+    }
+    
+    store.currentFunds -= newHistory.amount;
+    console.log("store",store)
+
 
     updateStorage();
     return true;
@@ -67,12 +70,15 @@ export function addNewHistory(newHistory) {
 
 export function removeHistory(dateId, itemId) {
   try {
-    // TODO:
-    /**
-     * - store의 detailList 새로 갱신
-     * - store.currentFunds 새로 갱신
-     */
-    store.detailList[dateId] = null;
+   
+    store.detailList[dateId] = store.detailList[dateId].filter(
+      ({id,amount}) => {
+        if(id === Number(itemId)) {
+          store.currentFunds += amount
+        }
+        return id !== Number(itemId);
+    }
+  );
 
     updateStorage();
     return true;
