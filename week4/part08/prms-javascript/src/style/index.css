@@ -138,57 +138,65 @@ section.item-section {
   margin: 12px 20px;
 }
 
-.history-per-day {
+.consumption-details{
+  list-style-type: none; /* 리스트 항목의 점 제거 */
+  margin: 0; /* 마진 제거 */
+  padding: 0; /* 패딩 제거 */
+  
+}
+
+.consumption-details-per-day {
   margin-top: 32px;
 }
 
-.history-per-day:first-child {
+.consumption-details-per-day:first-child {
   margin-top: 20px;
 }
 
-.history-date {
+.consumption-details-date {
   font-size: 13px;
   margin-bottom: 10px;
 }
 
-.history-item {
+.consumption-details-item {
   background-color: white;
   border-radius: 12px;
   padding: 18px 14px 8px;
   margin-bottom: 10px;
 }
 
-.history-item-column {
+.consumption-details-item-column {
   display: flex;
   justify-content: space-between;
   margin-bottom: 8px;;
 }
 
-.history-item-column .create-at {
+.consumption-details-item-column .create-at {
   font-size: 13px;
 }
 
-.history-item-column .history-detail {
+.consumption-details-item-column .consumption-details {
   width: 100%;
   margin: 0 16px;
   font-size: 18px;
 }
-.history-item-column .history-detail-row {
+.consumption-details-item-column .consumption-details-detail-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 10px;
 }
-.history-item-column .history-detail-subtitle {
+.consumption-details-item-column .consumption-details-detail-subtitle {
   text-align: right;
+  display: inline-block;
 }
-.history-item-column .history-detail-body {
+.consumption-details-item-column .history-detail-body {
   margin: 0px;
   font-size: 14px;
   text-align: right;
 }
 
-.history-item-column .delete-button {
+.consumption-details-item-column .delete-button {
   background: white;
   border: 1px solid #E0E0E0;
   border-radius: 24px;
@@ -197,12 +205,12 @@ section.item-section {
   cursor: pointer;
 }
 
-.history-item-column .delete-section {
+.consumption-details-item-column .delete-section {
   display: flex;
   align-items: center;
 }
 
-.history-item-caption {
+.consumption-details-item-caption {
   border-top: 1px solid #E0E0E0;
   padding-top: 8px;
   font-size: 13px;
