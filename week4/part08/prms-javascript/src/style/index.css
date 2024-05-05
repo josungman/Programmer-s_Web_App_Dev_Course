@@ -63,6 +63,14 @@ input[type="number"] {
   min-width: 80px;
 }
 
+.current-asset-value-wrapper {
+  padding-right: 14px;
+  font-size: 16px;
+  width: 100%;
+  border: none;
+  text-align: right;
+}
+
 .current-asset-value {
   padding: 14px;
   padding-right: 0px;
