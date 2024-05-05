@@ -1,5 +1,25 @@
 {
   "current-asset": {
     "price": 100000
-  }
+  },
+  "consumption-details": [
+    {
+        "id": 2,
+        "price" : 10000,
+        "category" : "카페",
+        "fundsAtTheTime" : 90000,
+        "description" : "아메리카노",
+        "createAt" : "2024-05-05T15:11:09.575Z"
+    },
+    {
+      "id": 1,
+      "price" : 10000,
+      "category" : "카페",
+      "fundsAtTheTime" : 100000,
+      "description" : "라떼",
+      "createAt" : "2024-05-03T15:11:09.575Z"
+    }
+
+
+  ]
 }
