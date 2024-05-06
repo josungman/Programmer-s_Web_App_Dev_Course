@@ -17,6 +17,7 @@ const createElement = (tagName,className) => {
 
 export const handleGetConsumptionDetails = async () => {
     toShow($consumptionDetailsLoader);
+    $consumptionDetails.textContent = "";
     const list = await getConsumptionDetails();
 
     list.map(({createAt,category,description,price,fundsAtTheTime}) => {

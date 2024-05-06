@@ -20,3 +20,18 @@ export const toHidden = (node) => {
       node.classList.add("v-none");
     }
 };
+
+
+export const validateRequired = (list) => {
+  return list.every((value) => {
+      if(value) return true;
+      throw new Error("value is invalid");
+  });
+}
+
+
+export const validatePrice = (price,currentAssetValue) => {
+  if(price > 0 && price <= currentAssetValue) return true;
+  throw new Error("price value is invalid");
+  
+}

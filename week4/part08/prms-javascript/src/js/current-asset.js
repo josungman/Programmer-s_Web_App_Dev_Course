@@ -1,7 +1,7 @@
 import axios from "axios"
 import { getCurrentAsset } from "../api/get-current-asset"
 import { toHidden, toShow } from "./util";
-import { addCurrentAsset } from "../api/add-current-asset";
+import { updateCurrentAsset } from "../api/update-current-asset";
 
 const $currentAssetValue = document.querySelector(".current-asset-value");
 const $currentAssetLoader = document.querySelector(".current-asset-loader");
@@ -18,6 +18,7 @@ export const initCurrentAsset = async () => {
         const inputValue = $currentAssetInput.value;
         if (inputValue > 0) {
             handleaddCurrentAsset(inputValue);
+            toHidden($currentAssetButton);
         } else {
             console.warn('0원 이상이 아닙니다.')
         }
@@ -26,7 +27,7 @@ export const initCurrentAsset = async () => {
 
 
 
-const handleaddCurrentAsset = async (inputValue) => {
+export const handleaddCurrentAsset = async (inputValue) => {
     toShow($currentAssetButtonLoader);
     toHidden($currentAssetButton);
     // await new Promise((resolve, reject) => {
@@ -34,7 +35,7 @@ const handleaddCurrentAsset = async (inputValue) => {
     //         resolve(1);
     //     },3000);
     // })
-    await addCurrentAsset(Number(inputValue));
+    await updateCurrentAsset(Number(inputValue));
     toHidden($currentAssetButtonLoader);
     toShow($currentAssetButton);
 

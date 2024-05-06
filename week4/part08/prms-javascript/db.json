@@ -1,25 +1,31 @@
 {
   "current-asset": {
-    "price": 100000
+    "price": 49000
   },
   "consumption-details": [
     {
-        "id": 2,
-        "price" : 10000,
-        "category" : "카페",
-        "fundsAtTheTime" : 90000,
-        "description" : "아메리카노",
-        "createAt" : "2024-05-05T15:11:09.575Z"
+      "id": 2,
+      "price": 10000,
+      "category": "카페",
+      "fundsAtTheTime": 90000,
+      "description": "아메리카노",
+      "createAt": "2024-05-05T15:11:09.575Z"
     },
     {
-      "id": 1,
-      "price" : 10000,
-      "category" : "카페",
-      "fundsAtTheTime" : 100000,
-      "description" : "라떼",
-      "createAt" : "2024-05-03T15:11:09.575Z"
+      "price": 50000,
+      "category": "카페",
+      "description": "ㅈㄷㄹ",
+      "fundsAtTheTime": 50000,
+      "createAt": "2024-05-06T04:41:17.300Z",
+      "id": 3
+    },
+    {
+      "price": 1000,
+      "category": "편의점",
+      "description": "샌드위치",
+      "fundsAtTheTime": 49000,
+      "createAt": "2024-05-06T04:44:26.596Z",
+      "id": 4
     }
-
-
   ]
 }
