@@ -1,7 +1,7 @@
 import axios from "axios"
 
 /**
- * @parms 
+ * @returns 
  * {
  *  id: number,
  *  price : number,
@@ -12,8 +12,8 @@ import axios from "axios"
  *  }
  */
 
-export const addConsumptionDetail = async (body) => {
-    const {data} = await axios.post('http://localhost:3002/consumption-details',body)
+export const getConsumptionDetails = async () => {
+    const {data} = await axios.get('http://localhost:30002/consumption-details')
     console.log(data);
     return data
 };

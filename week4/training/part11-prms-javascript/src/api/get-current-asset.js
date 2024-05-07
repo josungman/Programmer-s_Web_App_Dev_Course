@@ -6,7 +6,7 @@ import axios from "axios"
  */
 export const getCurrentAsset = async () => {
     
-        const { data } = await axios.get('http://localhost:3002/current-asset');
+        const { data } = await axios.get('http://localhost:30002/current-asset');
         console.log(data);
         return data;
     
