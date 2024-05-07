@@ -1,4 +1,3 @@
-import axios from "axios"
 import { getCurrentAsset } from "../api/get-current-asset"
 import { toHidden, toShow } from "./util";
 import { updateCurrentAsset } from "../api/update-current-asset";
@@ -12,7 +11,6 @@ const $addItemButton = document.querySelector(".add-item-button");
 
 export const initCurrentAsset = async () => {
     handleGetCurrentAsset();
-
     $currentAssetButton.addEventListener("click",function () {
         //console.log($currentAssetInput.value);
         const inputValue = $currentAssetInput.value;
@@ -25,16 +23,10 @@ export const initCurrentAsset = async () => {
     });
 };
 
-
-
 export const handleaddCurrentAsset = async (inputValue) => {
     toShow($currentAssetButtonLoader);
     toHidden($currentAssetButton);
-    // await new Promise((resolve, reject) => {
-    //     setTimeout(() => {
-    //         resolve(1);
-    //     },3000);
-    // })
+
     await updateCurrentAsset(Number(inputValue));
     toHidden($currentAssetButtonLoader);
     toShow($currentAssetButton);

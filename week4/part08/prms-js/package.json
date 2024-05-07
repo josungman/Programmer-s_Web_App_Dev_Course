@@ -11,6 +11,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "vite": "^4.0.4"
+    "vite": "^4.5.3"
   }
 }
