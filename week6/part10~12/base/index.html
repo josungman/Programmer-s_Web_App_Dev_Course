@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>머쓱 퍼즐게임</title>
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <!-- 1. 시작(메인 페이지) 화면 -->
+  <div class="start-screen">
+    <h1>퍼즐 게임</h1>
+    <button>시작하기</button>
+  </div>
+  
+  <!-- 2. 본(게임 페이지) 화면 -->
+  <div class="game-screen hide">
+    <!-- 이미지 교체 버튼 -->
+    <div class="button-wrapper">
+      <button id="changeImage">이미지 교체하기</button>
+    </div>
+
+    <!-- 퍼즐 영역 -->
+    <div class="slider-game">
+      <div class="container-wrapper">
+        <p class="image-label">조각난 이미지</p>
+        <div class="container"></div>
+      </div>
+      <div class="original-image-wrapper">
+        <p class="image-label">맞춰야 하는 이미지</p>
+        <div class="original-image">
+          <img id="originalImage" alt="original-image" />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="./script.js"></script>
+</body>
+</html>
