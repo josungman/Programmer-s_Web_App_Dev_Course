@@ -65,7 +65,7 @@
 <img id="previewImage" src="">
 <div id="message" style="text-align: center; margin-top: 20px;"></div>
 <script>
-    let imagePath = '../data/image1/originalImage.png';
+    let imagePath = './data/image1/originalImage.png';
     let numPiecesPerSide = 3;
     const totalWidth = 400;
     const totalHeight = 400;
@@ -96,7 +96,7 @@
          document.getElementById('previewImage').src = imagePath;
 
          // Select a random image from the imagePath array
-         const selectedImagePath = ['../data/image1/originalImage.png','../data/image2/originalImage.png','../data/image3/originalImage.png']; // Change to a new image path
+         const selectedImagePath = ['./data/image1/originalImage.png','./data/image2/originalImage.png','./data/image3/originalImage.png']; // Change to a new image path
          const randomIndex = Math.floor(Math.random() * selectedImagePath.length);
         imagePath = selectedImagePath[randomIndex];
         
