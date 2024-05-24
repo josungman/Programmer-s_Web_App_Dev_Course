@@ -30,12 +30,16 @@
     cursor: pointer;
     position: relative;
     box-sizing: border-box;
-    border: 1px solid #ccc;
-    transition: transform 0.3s ease-in-out;
+    border: 0.5px solid #ccc;
+    background-color: #ffffff;
+    transition: transform 0.8s ease-in-out;
 }
 .piece:hover {
     transform: scale(1.05);
     box-shadow: 0 3px 5px rgba(0, 0, 0, 0.4);
+}
+.no-transition {
+    transition: none !important;
 }
 
 #message {

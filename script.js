@@ -13,6 +13,7 @@ let swapCount = 0;
 let timerId;
 let totalTime = 120;
 
+
 //퍼즐 사이즈 버튼 리스너
 document.getElementById('sizeSelector').addEventListener('change', function() {
     document.getElementById('message').textContent = '';
@@ -32,8 +33,10 @@ document.getElementById('changeImageButton').addEventListener('click', function(
         puzzle.style.backgroundImage = ``;
 
         const selectedImagePath = ['./data/image1/originalImage.png','./data/image2/originalImage.png','./data/image3/originalImage.png'];
-        const randomIndex = Math.floor(Math.random() * selectedImagePath.length);
-        imagePath = selectedImagePath[randomIndex];
+        // 현재 이미지를 제외한 이미지 목록을 생성
+        const availableImages = selectedImagePath.filter(path => path !== imagePath);
+        const randomIndex = Math.floor(Math.random() * availableImages.length);
+        imagePath = availableImages[randomIndex];
 
         document.getElementById('previewImage').src = imagePath;
     
@@ -72,6 +75,7 @@ function createPieces() {//퍼즐 생성 함수
             piece.style.backgroundImage = `url('${imagePath}')`;
             piece.style.backgroundPosition = `-${x * pieceWidth}px -${y * pieceHeight}px`;
             piece.style.backgroundSize = `${totalWidth}px ${totalHeight}px`;
+            
             pieces.push(piece);
         }
     }
@@ -115,19 +119,26 @@ function swapPieces(piece1, piece2) {//선택된 퍼즐끼리 스왑 하는 함�
     let index2 = pieces.indexOf(piece2);
     [pieces[index1], pieces[index2]] = [pieces[index2], pieces[index1]];
     
-    // 계산된 위치를 기반으로 transform 속성을 업데이트합니다.
-    let piece1Rect = piece1.getBoundingClientRect();
-    let piece2Rect = piece2.getBoundingClientRect();
+    //움직이는 애니매이션 인접한 조각 중복 실행되는 문제 있음
+    // // 계산된 위치를 기반으로 transform 속성을 업데이트합니다.
+    // let piece1Rect = piece1.getBoundingClientRect();
+    // let piece2Rect = piece2.getBoundingClientRect();
 
-    // Transform을 적용하여 부드럽게 위치를 교환합니다.
-    piece1.style.transform = `translate(${piece2Rect.left - piece1Rect.left}px, ${piece2Rect.top - piece1Rect.top}px)`;
-    piece2.style.transform = `translate(${piece1Rect.left - piece2Rect.left}px, ${piece1Rect.top - piece2Rect.top}px)`;
+    //  // // Transform을 적용하여 부드럽게 위치를 교환합니다.
+    //  piece1.style.transform = `translate(${piece2Rect.left - piece1Rect.left}px, ${piece2Rect.top - piece1Rect.top}px)`;
+    //  piece2.style.transform = `translate(${piece1Rect.left - piece2Rect.left}px, ${piece1Rect.top - piece2Rect.top}px)`;
+
+    // 스왑시 스케일 애니메이션 적용
+    piece1.style.transform = 'scale(1.2)';
+    piece2.style.transform = 'scale(1.2)';
 
     // 애니메이션 후에 실제 DOM 위치와 속성을 교환합니다.
     setTimeout(() => {
-        // 원래대로 리셋
-        piece1.style.transform = '';
-        piece2.style.transform = '';
+          // 애니메이션 후에 원래대로 리셋
+          piece1.style.transform = '';
+          piece2.style.transform = '';
+          
+    
 
         if (piece1.nextElementSibling === piece2) {
             puzzle.insertBefore(piece2, piece1);
@@ -146,7 +157,7 @@ function swapPieces(piece1, piece2) {//선택된 퍼즐끼리 스왑 하는 함�
         // 스왑 카운트 업데이트
         swapCount++;
         document.getElementById('swapCount').textContent = `총 이동횟수: ${swapCount}`;
-    }, 500); // CSS transition 시간과 일치시키기
+    }, 800); // CSS transition 시간과 일치시키기
 }
 
 function checkCompletion() {//퍼즐 완료 체크 함수
@@ -168,6 +179,9 @@ function resetTimer() {
 }
 
 function updateTimer() {
+
+    
+
     let minutes = Math.floor(totalTime / 60);
     let seconds = totalTime % 60;
     seconds = seconds < 10 ? '0' + seconds : seconds;
