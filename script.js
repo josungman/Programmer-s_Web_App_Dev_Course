@@ -1,6 +1,8 @@
 //변수 초기 설정
 const puzzle = document.getElementById('puzzle');
-let imagePath = './data/image1/originalImage.png';
+let imagePath = randomizeImagePath();
+let lastImagePath = imagePath
+
 let numPiecesPerSide = 3;
 const totalWidth = 400;
 const totalHeight = 400;
@@ -31,17 +33,24 @@ document.getElementById('sizeSelector').addEventListener('change', function() {
 document.getElementById('changeImageButton').addEventListener('click', function() {
         document.getElementById('message').textContent = '';
         puzzle.style.backgroundImage = ``;
-
-        const selectedImagePath = ['./data/image1/originalImage.png','./data/image2/originalImage.png','./data/image3/originalImage.png'];
-        // 현재 이미지를 제외한 이미지 목록을 생성
-        const availableImages = selectedImagePath.filter(path => path !== imagePath);
-        const randomIndex = Math.floor(Math.random() * availableImages.length);
-        imagePath = availableImages[randomIndex];
+       
+        do {
+            imagePath = randomizeImagePath();
+        } while (imagePath === lastImagePath);  // 이전 이미지와 다를 때까지 반복
+    
+        lastImagePath = imagePath;  // 선택된 이미지를 마지막 이미지로 저장
 
         document.getElementById('previewImage').src = imagePath;
     
     initializePuzzle();
 });
+
+function randomizeImagePath() { //이미지 랜덤 돌리는 함수
+    const basePath = 'https://elbserver.store/static/puzzle-game/imgs/';
+    const imageIndex = Math.floor(Math.random() * 10) + 1; 
+    return `${basePath}img${imageIndex}.jpg`;  
+}
+
 
 function initializePuzzle() {// 활성화 함수
 
@@ -97,16 +106,23 @@ function shuffleArray(array) {//무작위 섞는 함수
     }
 }
 
-function selectPiece(event) {//퍼즐 선택
+function selectPiece(event) {//퍼즐 선택 함수
     const piece = event.target;
     if (!selectedPiece) {
         selectedPiece = piece;
         piece.style.border = '3px solid red';
     } else {
-        swapPieces(selectedPiece, piece);
-        selectedPiece.style.border = '1px solid #ccc';
-        selectedPiece = null;
-        checkCompletion();
+        if (selectedPiece === piece) {
+            // 같은 퍼즐 조각을 다시 클릭한 경우, 선택만 해제합니다.
+            piece.style.border = '1px solid #ccc';
+            selectedPiece = null;
+        } else {
+            // 다른 퍼즐 조각을 클릭한 경우, 조각을 스왑합니다.
+            swapPieces(selectedPiece, piece);
+            selectedPiece.style.border = '1px solid #ccc';
+            selectedPiece = null;
+            checkCompletion();
+        }
     }
 }
 
@@ -119,15 +135,6 @@ function swapPieces(piece1, piece2) {//선택된 퍼즐끼리 스왑 하는 함�
     let index2 = pieces.indexOf(piece2);
     [pieces[index1], pieces[index2]] = [pieces[index2], pieces[index1]];
     
-    //움직이는 애니매이션 인접한 조각 중복 실행되는 문제 있음
-    // // 계산된 위치를 기반으로 transform 속성을 업데이트합니다.
-    // let piece1Rect = piece1.getBoundingClientRect();
-    // let piece2Rect = piece2.getBoundingClientRect();
-
-    //  // // Transform을 적용하여 부드럽게 위치를 교환합니다.
-    //  piece1.style.transform = `translate(${piece2Rect.left - piece1Rect.left}px, ${piece2Rect.top - piece1Rect.top}px)`;
-    //  piece2.style.transform = `translate(${piece1Rect.left - piece2Rect.left}px, ${piece1Rect.top - piece2Rect.top}px)`;
-
     // 스왑시 스케일 애니메이션 적용
     piece1.style.transform = 'scale(1.2)';
     piece2.style.transform = 'scale(1.2)';
@@ -138,8 +145,6 @@ function swapPieces(piece1, piece2) {//선택된 퍼즐끼리 스왑 하는 함�
           piece1.style.transform = '';
           piece2.style.transform = '';
           
-    
-
         if (piece1.nextElementSibling === piece2) {
             puzzle.insertBefore(piece2, piece1);
         } else if (piece2.nextElementSibling === piece1) {
@@ -157,7 +162,7 @@ function swapPieces(piece1, piece2) {//선택된 퍼즐끼리 스왑 하는 함�
         // 스왑 카운트 업데이트
         swapCount++;
         document.getElementById('swapCount').textContent = `총 이동횟수: ${swapCount}`;
-    }, 800); // CSS transition 시간과 일치시키기
+    }, 600); // CSS transition 시간과 일치시키기
 }
 
 function checkCompletion() {//퍼즐 완료 체크 함수
@@ -179,9 +184,6 @@ function resetTimer() {
 }
 
 function updateTimer() {
-
-    
-
     let minutes = Math.floor(totalTime / 60);
     let seconds = totalTime % 60;
     seconds = seconds < 10 ? '0' + seconds : seconds;
