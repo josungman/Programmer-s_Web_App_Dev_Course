@@ -1,0 +1,45 @@
+#controlPanel {
+    width: 400px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px auto;
+}
+#sizeSelector, #swapCount, #timer, #changeImageButton {
+    margin: 20px auto;
+    display: block;
+}
+#swapCount, #timer{
+    text-align: center;
+}
+        
+#puzzle {
+    width: 400px;
+    height: 400px;
+    display: grid;
+    margin: 20px auto;
+}
+#previewImage{
+    width: 200px;
+    height: 200px;
+    display: flex;
+    margin: 20px auto;
+
+}
+.piece {
+    cursor: pointer;
+    position: relative;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    transition: transform 0.3s ease-in-out;
+}
+.piece:hover {
+    transform: scale(1.05);
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.4);
+}
+
+#message {
+    font-size: large;
+}
+
+
