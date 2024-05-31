@@ -32,3 +32,5 @@ class DarkModeToggle {
     isDarkMode ? 'dark' : 'light');
   }
 }
+
+export default DarkModeToggle

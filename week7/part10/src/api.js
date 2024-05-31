@@ -1,9 +1,14 @@
-const API_ENDPOINT =
-  "https://q9d70f82kd.execute-api.ap-northeast-2.amazonaws.com/dev";
+import config from './config.js'
 
-const REQUEST_ERROR = {
-  '500' : {msg : '요청실패'}
-}
+const { API_ENDPOINT, REQUEST_ERROR } = config;
+
+// const API_ENDPOINT =
+//   "https://q9d70f82kd.execute-api.ap-northeast-2.amazonaws.com/dev";
+
+// const REQUEST_ERROR = {
+//   '500' : {msg : '요청실패'}
+// }
+
 
 const request = async (url) => {
   try {
@@ -37,3 +42,6 @@ const api = {
     return request(`${API_ENDPOINT}/api/cats/${id}`)
   },
 };
+
+
+export default api
