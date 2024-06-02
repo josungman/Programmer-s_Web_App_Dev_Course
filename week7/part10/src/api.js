@@ -32,6 +32,10 @@ const api = {
     return request(`${API_ENDPOINT}/api/cats/search?q=${keyword}`)
     
   },
+  fetchCatsWithLimit: (keyword,limit) => {
+    return request(`${API_ENDPOINT}/api/cats/search?q=${keyword}&limiy=${limit}`)
+    
+  },
   fetchCatsPage: (keyword,page) => {
     return request(`${API_ENDPOINT}/api/cats/search?q=${keyword}&page=${page}`)
   },

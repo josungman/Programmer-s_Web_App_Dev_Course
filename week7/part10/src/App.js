@@ -7,6 +7,7 @@ import  SearchInput from './SearchInput.js'
 import SearchResult from './SearchResult.js'
 import ImageInfo from './ImageInfo.js'
 import api from './api.js'
+import Banner from './Banner.js';
 
 
 class App {
@@ -27,10 +28,10 @@ class App {
 
     this.searchInput = new SearchInput({
       $target,
-      onSearch: keyword => {
+      onSearch: (keyword,limit) => {
 
         this.Loading.show();
-        api.fetchCats(keyword).then(({ data }) => {
+        api.fetchCatsWithLimit(keyword,limit).then(({ data }) => {
           this.setState({
             items: data,
             page:this.DEFAULT_PAGE
@@ -52,6 +53,10 @@ class App {
         });
       }
     });
+
+    this.banner = new Banner({
+      $target
+    })
 
     this.searchResult = new SearchResult({
       $target,
