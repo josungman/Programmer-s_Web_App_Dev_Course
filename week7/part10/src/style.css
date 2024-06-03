@@ -95,12 +95,13 @@
     top: 75px;
     left: 0;
     width: 100%;
-    background-color: #000;
+    background-color: rgba(0,0,0,.3);
     padding: 20px;
   }
 
 
   .SerchInputSection:hover .KeywordHistory{
+    z-index: 99;
     display: block;
   }
 
