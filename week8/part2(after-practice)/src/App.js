@@ -9,8 +9,12 @@ export default function App({$target}) {
     isRoot : true,
     isLoading : false,
     nodes : [],
-    paths: []
+    paths: [],
+    selectedImageUrl : null
   }
+
+
+  const nodesCache = {}
 
   const loading = new Loading({
     $target
@@ -113,19 +117,44 @@ export default function App({$target}) {
   }
 
 
-  const fetchNodes = async (id) =>{
-    this.setState({
-      ...this.state,
-      isLoading : true
-    })
-    const nodes = await request(id ? `/${id}` : '/')
+  // const fetchNodes = async (id) =>{
+  //   this.setState({
+  //     ...this.state,
+  //     isLoading : true
+  //   })
+  //   const nodes = await request(id ? `/${id}` : '/')
 
-    this.setState({
-      ...this.state,
-      nodes,
-      isRoot:id ? false : true,
-      isLoading : false
-    })
+  //   this.setState({
+  //     ...this.state,
+  //     nodes,
+  //     isRoot:id ? false : true,
+  //     isLoading : false
+  //   })
+  // }
+
+  const fetchNodes = async (id) => {
+    const cacheKey = id || 'root'
+    if (!nodesCache[cacheKey]) {
+      this.setState({
+        ...this.state,
+        isLoading: true
+      })
+      const nodes = await request(id ? `/${id}` : '/')
+      nodesCache[cacheKey] = nodes
+
+      this.setState({
+        ...this.state,
+        nodes,
+        isRoot: !id,
+        isLoading: false
+      })
+    } else {
+      this.setState({
+        ...this.state,
+        nodes: nodesCache[cacheKey],
+        isRoot: !id,
+      })
+    }
   }
 
   fetchNodes()

@@ -1,3 +1,5 @@
+import validateState from '../src/utils/StateValidation.js'
+
 export default function Breadcrumb({$target, initalState, onClick}){
     const $breadcrumb = document.createElement('nav')
     $breadcrumb.className = 'Breadcrumb'
@@ -7,8 +9,13 @@ export default function Breadcrumb({$target, initalState, onClick}){
     this.state = initalState
 
     this.setState = (nextState) => {
-        this.state = nextState
-        this.render()
+
+        validateState(nextState,'Breadcrumb')
+
+        if (this.state !== nextState) {
+            this.state = nextState
+            this.render()
+        }
     }
 
 

@@ -1,3 +1,5 @@
+import validateState from '../src/utils/StateValidation.js'
+
 export default function Nodes({$target, initalState, onClick,onPrevClick}){
   const $nodes = document.createElement('div')
   $target.appendChild($nodes)
@@ -6,11 +8,17 @@ export default function Nodes({$target, initalState, onClick,onPrevClick}){
   this.state = initalState
 
   this.setState = nextState => {
-      this.state = nextState
-      this.render()
+
+      validateState(nextState,'Nodes')
+
+      if (this.state !== nextState) {
+        this.state = nextState
+        this.render()
+      }
   }
 
   this.render = () => {
+      
       const { isRoot,nodes} = this.state
 
       $nodes.innerHTML = `
@@ -54,4 +62,12 @@ export default function Nodes({$target, initalState, onClick,onPrevClick}){
 
 
   })
+
+
+  //추가기능 완료
+  window.addEventListener('keyup', (e) => {
+    if (e.key === 'Backspace' && !this.state.isRoot){
+      onPrevClick()
+    }
+})
 }

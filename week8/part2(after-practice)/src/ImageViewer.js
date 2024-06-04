@@ -1,3 +1,5 @@
+import validateState from '../src/utils/StateValidation.js'
+
 export default function ImageViewer({ $target, onClose }) {
     const $imageViewer = document.createElement('div')
     $imageViewer.className = 'ImageViewer Modal'
@@ -8,15 +10,20 @@ export default function ImageViewer({ $target, onClose }) {
     }
 
     this.setState = nextState =>{
-        this.state = nextState
-        this.render()
+
+        validateState(nextState,'ImageViewer')
+
+        if (this.state !== nextState) {
+            this.state = nextState
+            this.render()
+        }
     }
 
     this.render = () => {
         $imageViewer.style.display = this.state.selectedImageUrl ? 'block' : 'none'
         $imageViewer.innerHTML = `
             <div class="content">
-                <img src="${this.state.selectedImageUrl}" />
+                <img src="${this.state.selectedImageUrl ? this.state.selectedImageUrl : ''}" />
             </div>
         `
     }

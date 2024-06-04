@@ -1,3 +1,5 @@
+import validateState from '../src/utils/StateValidation.js'
+
 export default function Loading({ $target }){
   const $loading = document.createElement('div')
   $loading.className = 'Loading Modal'
@@ -7,8 +9,13 @@ export default function Loading({ $target }){
   this.state = false
 
   this.setState = (nextState) => {
-    this.state = nextState
-    this.render()
+    
+    validateState(nextState,'Loading')
+
+    if (this.state !== nextState) {
+      this.state = nextState
+      this.render()
+    }
   }
 
 
