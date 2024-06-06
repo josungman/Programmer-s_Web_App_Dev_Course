@@ -27,7 +27,4 @@ export default function  validateState(data,component){
   
   }
 
-
-
-
 }
