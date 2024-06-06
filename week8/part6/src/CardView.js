@@ -6,7 +6,7 @@ class CardView {
   isEvent = false
   
   
-  constructor({$body,initalState}) {
+  constructor({$body,initalState,onClick}) {
       this.$containerDiv = document.createElement("div");
       this.$containerDiv.setAttribute("id", "cards_container");
       
@@ -14,6 +14,8 @@ class CardView {
       const $main = document.getElementById("page_content");
       $main.appendChild(this.$containerDiv);
       
+      this.onClick = onClick
+
       this.data = initalState.personalInfo
       if (this.data){
         this.render();
@@ -29,12 +31,14 @@ class CardView {
 
 
   ListObserver = new IntersectionObserver((entries,observer) => {
-      entries.forEach(entry => {
+      entries.forEach( entry => {
         
         if (entry.isIntersecting) {
             console.log('대상 요소가 70% 이상 보이고 있습니다.');
             
             this.onNextPage()
+            this.onClick(entry)
+            
         
             observer.unobserve(entry.target);
         }
@@ -46,54 +50,39 @@ class CardView {
 
   onNextPage ()  {
     
+    console.log(JSON.parse(this.data.personalInfo).length)
+    const personalInfoArray = JSON.parse(this.data.personalInfo);
     const newPageData = JSON.parse(this.data.personalInfo);
 
-    // 새로운 데이터를 기존 컨텐츠에 이어 붙입니다.
-    newPageData.forEach((data, index) => {
-        const cardHTML = `
-            <div idx="${index}" class="card">
-                <div class="card_plane card_plane--front">${data.nickname}</div>
-                <div class="card_plane card_plane--back">${data.mbti}</div>
-            </div>
-        `;
+    // newPageData 배열의 모든 요소를 personalInfoArray에 하나씩 추가
+    Array.prototype.push.apply(personalInfoArray, newPageData);
+    this.data.personalInfo = JSON.stringify(personalInfoArray);
 
-        // 'beforeend'는 기존 내용 끝에 새 내용을 추가합니다.(테스트용으로 만듬)
-        this.$containerDiv.insertAdjacentHTML('beforeend', cardHTML);
-    });
-
-    this.initializeCardListeners();
+    this.render()
     
   }
 
+  cardFlipped(targetCard) {
+      targetCard.classList.toggle("is-flipped");
+      this.cardStorage[targetCard.getAttribute('idx')].status = targetCard.classList.contains("is-flipped");
+      localStorage.setItem("cardStatus", JSON.stringify(this.cardStorage));
+  }
 
-    initializeCardListeners() {
-      
-      this.$containerDiv.querySelectorAll(".card").forEach(($card_div, index) => {
-          if (this.cardStorage && this.cardStorage[index] && this.cardStorage[index].status) {
-              $card_div.classList.add("is-flipped");
-          } else {
-              $card_div.classList.remove("is-flipped");
-                this.cardStorage[index] = {
-                "idx": index,
-                "status": false // 기본 상태는 뒤집혀있지 않음으로 설정
-              };
-          }
+  initializeCardStatus() {  
+    this.$containerDiv.querySelectorAll(".card").forEach(($card_div, index) => {
+        if (this.cardStorage && this.cardStorage[index] && this.cardStorage[index].status) {
+            $card_div.classList.add("is-flipped");
+        } else {
+            $card_div.classList.remove("is-flipped");
+              this.cardStorage[index] = {
+              "idx": index,
+              "status": false // 기본 상태는 뒤집혀있지 않음으로 설정
+            };
+        }
 
-          $card_div.setAttribute('idx', index);
+        $card_div.setAttribute('idx', index);
 
-          if ($card_div.getAttribute('data-listener-attached') === 'true') {
-            console.log('리스너 중복 확인')
-            return; // 이미 리스너가 추가되었으면 더 이상 진행하지 않음
-          }
-
-          $card_div.addEventListener("click", (e) => {
-              $card_div.classList.toggle("is-flipped");
-              // $card_div.classList.contains("is-flipped") === true ? $card_div.classList.remove("is-flipped") : $card_div.classList.add("is-flipped")
-              
-              this.cardStorage[index].status = $card_div.classList.contains("is-flipped");
-              localStorage.setItem("cardStatus", JSON.stringify(this.cardStorage));
-          });
-      });
+    });
   }
 
   render() { 
@@ -109,11 +98,17 @@ class CardView {
     `)
     .join("")
 
-    //onclick 함수로 넣는다??
-    this.initializeCardListeners();
-    const target = this.$containerDiv.lastElementChild
-    this.ListObserver.observe(target)
+    this.initializeCardStatus();
 
+    this.$containerDiv.querySelectorAll(".card").forEach(($card_div) => {      
+    $card_div.addEventListener("click", () => {
+        this.onClick($card_div)
+    });
+
+  })
+  
+  const target = this.$containerDiv.lastElementChild
+  this.ListObserver.observe(target)
 
   }
 }

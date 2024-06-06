@@ -12,7 +12,10 @@ class App {
       
       this.cardView = new CardView({
         $body,
-        initalState : this.state
+        initalState : this.state,
+        onClick : data => {
+          this.cardView.cardFlipped(data)
+        }
         })
       
       this.init();
