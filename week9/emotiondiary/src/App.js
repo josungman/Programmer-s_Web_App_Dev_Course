@@ -1,4 +1,4 @@
-import React, { useReducer, useRef } from 'react';
+import React, { useEffect, useReducer, useRef } from 'react';
 
 import './App.css';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
@@ -20,7 +20,7 @@ const reducer = (state, action) => {
       break
     }
     case 'REMOVE': {
-      newState = state.filter((it) => it.id !== action.targetID);
+      newState = state.filter((it) => it.id !== action.targetId);
       break
     }
     case 'EDIT': {
@@ -30,6 +30,8 @@ const reducer = (state, action) => {
     default:
       return state
   }
+
+  localStorage.setItem("diary", JSON.stringify(newState))
   return newState
 }
 
@@ -37,43 +39,52 @@ export const DiaryStateContext = React.createContext()
 export const DiaryDispatchContext = React.createContext()
 
 
-const dummayData = [
-  {
-    id: 1,
-    emotion: 1,
-    content: "오늘의일기 1번",
-    date: 1718191136590,
-  },
-  {
-    id: 2,
-    emotion: 3,
-    content: "오늘의일기 2번",
-    date: 1718191136790,
-  },
-  {
-    id: 3,
-    emotion: 3,
-    content: "오늘의일기 3번",
-    date: 1718191138790,
-  },
-  {
-    id: 4,
-    emotion: 1,
-    content: "오늘의일기 4번",
-    date: 1718191138793,
-  },
-  {
-    id: 5,
-    emotion: 2,
-    content: "오늘의일기 5번",
-    date: 1718191138795,
-  }
-]
+// const dummayData = [
+//   {
+//     id: 1,
+//     emotion: 1,
+//     content: "오늘의일기 1번",
+//     date: 1718191136590,
+//   },
+//   {
+//     id: 2,
+//     emotion: 3,
+//     content: "오늘의일기 2번",
+//     date: 1718191136790,
+//   },
+//   {
+//     id: 3,
+//     emotion: 3,
+//     content: "오늘의일기 3번",
+//     date: 1718191138790,
+//   },
+//   {
+//     id: 4,
+//     emotion: 5,
+//     content: "오늘의일기 4번",
+//     date: 1718191138793,
+//   },
+//   {
+//     id: 5,
+//     emotion: 2,
+//     content: "오늘의일기 5번",
+//     date: 1718191138795,
+//   }
+// ]
 
 
 function App() {
 
-  const [data, dispatch] = useReducer(reducer, dummayData)
+  useEffect(() => {
+    const localData = localStorage.getItem('diary')
+    if (localData) {
+      const diaryList = JSON.parse(localData).sort((a, b) => parseInt(b.id) - parseInt(a.id))
+      dataId.current = parseInt(diaryList[0].id) + 1
+      dispatch({ type: "INIT", data: diaryList })
+    }
+  }, [])
+
+  const [data, dispatch] = useReducer(reducer, [])
 
   const dataId = useRef(0)
 
@@ -119,7 +130,7 @@ function App() {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/new" element={<New />} />
-              <Route path="/edit" element={<Edit />} />
+              <Route path="/edit/:id" element={<Edit />} />
               <Route path="/diary/:id" element={<Diary />} />
             </Routes>
           </div>
