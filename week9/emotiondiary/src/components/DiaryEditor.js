@@ -23,10 +23,18 @@ const DiaryEditor = ({ isEdit, originData }) => {
 
 	const { onCreate, onEdit, onRemove } = useContext(DiaryDispatchContext)
 
+
 	const handleClickEmote = useCallback((emotion) => {
+		console.log(`emotion : ${emotion}`)
 		setEmotion(emotion)
 	}, [])
 
+
+	/*
+	const handleClickEmote = (emotion) => {
+		setEmotion(emotion)
+	}
+	*/
 	const handleSubmit = () => {
 		if (content.length < 1) {
 			contentRef.current.focus();

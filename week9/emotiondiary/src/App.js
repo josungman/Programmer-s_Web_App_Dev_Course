@@ -38,41 +38,6 @@ const reducer = (state, action) => {
 export const DiaryStateContext = React.createContext()
 export const DiaryDispatchContext = React.createContext()
 
-
-// const dummayData = [
-//   {
-//     id: 1,
-//     emotion: 1,
-//     content: "오늘의일기 1번",
-//     date: 1718191136590,
-//   },
-//   {
-//     id: 2,
-//     emotion: 3,
-//     content: "오늘의일기 2번",
-//     date: 1718191136790,
-//   },
-//   {
-//     id: 3,
-//     emotion: 3,
-//     content: "오늘의일기 3번",
-//     date: 1718191138790,
-//   },
-//   {
-//     id: 4,
-//     emotion: 5,
-//     content: "오늘의일기 4번",
-//     date: 1718191138793,
-//   },
-//   {
-//     id: 5,
-//     emotion: 2,
-//     content: "오늘의일기 5번",
-//     date: 1718191138795,
-//   }
-// ]
-
-
 function App() {
 
   useEffect(() => {

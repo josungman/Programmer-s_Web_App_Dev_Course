@@ -52,6 +52,9 @@ const DiaryList = ({ diaryList = [] }) => {
         const filterdList = filter === 'all' ? copyList : copyList.filter((it) => filterCallBack(it))
 
         const sortedList = filterdList.sort(compare)
+
+        console.log(sortedList)
+
         return sortedList
     }
 
