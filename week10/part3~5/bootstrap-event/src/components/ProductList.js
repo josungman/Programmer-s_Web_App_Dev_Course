@@ -1,44 +1,7 @@
 import { Card } from "react-bootstrap";
 import styles from '../pages/EventByBootstrap.module.css'
 
-import product1 from '../assets/images/event/products/product1.png'
-import product2 from '../assets/images/event/products/product2.png'
-
-const productList = [
-    {
-        img: product1,
-        type: '셔츠/블라우스',
-        productName: '데일리 베이지 셔츠 (7color)',
-        precent: 50,
-        price: 50000
-    },
-    {
-        img: product2,
-        type: '셔츠/블라우스',
-        productName: '스텐다드 블루종 스웨이드 자켓',
-        precent: 50,
-        price: 100000
-    },
-    {
-        img: product1,
-        type: '셔츠/블라우스',
-        productName: '데일리 베이지 셔츠 (7color)',
-        precent: 50,
-        price: 50000
-    },
-    {
-        img: product2,
-        type: '셔츠/블라우스',
-        productName: '스텐다드 블루종 스웨이드 자켓',
-        precent: 50,
-        price: 100000
-    }
-]
-
-
-
-
-const ProductList = () => {
+const ProductList = ({ productList = [] }) => {
 
     return (
         <div className={styles.top__sales_list}>

@@ -1,17 +1,29 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
+
 import { Link } from "react-router-dom";
 import { Button } from "react-bootstrap";
+
+import { ProductStateContext } from '../App';
+import { FilterOptionsContext } from '../App';
+
 import styles from './EventByBootstrap.module.css'
 import arrow_left from '../assets/icons/arrow_left.svg'
 import share from '../assets/icons/share.svg'
-
 import ProductList from "../components/ProductList";
 import EventMainSection from "../components/EventMainSection";
 
-
 const EventByBootstrap = () => {
 
-    const [currentFilter, setCurrentFilter] = useState("남성의류");
+    const dummayproductList = useContext(ProductStateContext)
+    const filterOptions = useContext(FilterOptionsContext)
+
+    const [data, setData] = useState([])
+    const [currentFilter, setCurrentFilter] = useState("여성의류");
+
+    useEffect(() => {
+        const filteredData = dummayproductList.filter((it) => it.type === currentFilter);
+        setData(filteredData);
+    }, [currentFilter, dummayproductList]);
 
     const handleCurrnetFilter = (newFilter) =>
         setCurrentFilter(newFilter);
@@ -22,53 +34,42 @@ const EventByBootstrap = () => {
                 <div className={styles.page__style}>
                     <section className={styles.header}>
 
-                        <button className={styles.header__btn}>
-                            <img src={arrow_left} alt="arrow_left" />
-                        </button>
+                        <Link to={"/"}>
+                            <button className={styles.header__btn}>
+                                <img src={arrow_left} alt="arrow_left" />
+                            </button>
+                        </Link>
 
-                        <h1 className={styles.header__title}>크리스마스 특별할인</h1>
+                        <h1 className={styles.header__title}>React Bootstrap</h1>
 
-                        <Link to={"notice"}>
+                        <Link to="/notice">
                             <button className={styles.header__btn}>
                                 <img src={share} alt="공유하기" />
                             </button>
                         </Link>
                     </section>
 
-
                     <EventMainSection />
-
 
                     <section>
 
                         <ul className={styles.filter__list}>
-                            <li
-                                className={styles.filter__btn}
-                                data-active={currentFilter === "남성의류"}
-                                onClick={() => handleCurrnetFilter("남성의류")}
-                            >
-                                남성의류
-                            </li>
-                            <li
-                                className={styles.filter__btn}
-                                data-active={currentFilter === "여성의류"}
-                                onClick={() => handleCurrnetFilter("여성의류")}
-                            >
-                                여성의류
-                            </li>
-                            <li
-                                className={styles.filter__btn}
-                                data-active={currentFilter === "가전제품"}
-                                onClick={() => handleCurrnetFilter("가전제품")}
-                            >
-                                가전제품
-                            </li>
+                            {filterOptions.map((filter, idx) => (
+                                <li
+                                    key={idx}
+                                    className={styles.filter__btn}
+                                    data-active={currentFilter === filter}
+                                    onClick={() => handleCurrnetFilter(filter)}
+                                >
+                                    {filter}
+                                </li>
+                            ))}
                         </ul>
 
 
                         <div className={styles.top__sales}>
                             <h2>실시간 인기 TOP5</h2>
-                            <ProductList />
+                            <ProductList productList={data} />
                             <Button className={styles.show__all__btn}>
                                 전체 상품 보기
                             </Button>
