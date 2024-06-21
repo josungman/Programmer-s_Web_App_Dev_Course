@@ -1,0 +1,112 @@
+/* reset */
+html,
+body,
+#root {
+    height: 100%;
+    color: #333333;
+}
+body {
+    margin: 0;
+    overflow-x: hidden;
+    overflow-wrap: break-word;
+}
+
+/*  Do not break Korean words  */
+:lang(ko) {
+    word-break: keep-all;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    margin: 0;
+}
+a,
+a:hover {
+    color: unset;
+}
+
+.content-wrapper {
+    padding: 37px 30px;
+    background-color: #fff;
+    border-radius: 25px;
+    -webkit-border-radius: 25px;
+    -moz-border-radius: 25px;
+    -ms-border-radius: 25px;
+    -o-border-radius: 25px;
+}
+/* login */
+.login-form {
+    max-width: 300px;
+}
+.login-form-forgot {
+    float: right;
+}
+.ant-col-rtl .login-form-forgot {
+    float: left;
+}
+.login-form-button {
+    width: 100%;
+}
+/* banner */
+label {
+    display: block;
+    color: #707070;
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 10px;
+}
+
+.upload-interaction img {
+    object-fit: contain;
+    height: inherit;
+}
+
+.banner-detail .pc-banner .ant-upload-wrapper {
+    height: 200px !important;
+}
+.banner-detail .pc-banner .ant-upload {
+    width: 432px !important;
+    height: 200px !important;
+    display: flex;
+    background: transparent !important;
+}
+.banner-detail .mobile-banner .ant-upload-wrapper {
+    height: 450px !important;
+}
+.banner-detail .mobile-banner .ant-upload {
+    width: 375px !important;
+    height: 450px !important;
+    display: flex;
+    background: transparent !important;
+}
+
+/* popup */
+.popup-detail .popup-img .ant-upload-wrapper {
+    height: 500px !important;
+}
+.popup-detail .popup-img .ant-upload {
+    width: 320px !important;
+    height: 500px !important;
+    display: flex;
+    background: transparent !important;
+}
+
+/* notice */
+.notice-detail .thumbnail-img .ant-upload-wrapper {
+    height: 180px !important;
+}
+.notice-detail .thumbnail-img .ant-upload {
+    width: 320px !important;
+    height: 180px !important;
+    display: flex;
+    background: transparent !important;
+}

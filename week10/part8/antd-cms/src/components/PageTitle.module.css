@@ -1,0 +1,15 @@
+.h2_text {
+  font-weight: 600;
+  font-size: 22px;
+  line-height: 22px;
+  margin: 0;
+  color: #383838;
+  margin-bottom: 8px;
+}
+.h3_text {
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 16px;
+  margin: 0;
+  color: #707070;
+}
