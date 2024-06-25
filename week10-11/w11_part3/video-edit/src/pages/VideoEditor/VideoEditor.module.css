@@ -1,0 +1,102 @@
+.title_pc {
+  color: #383838;
+  font-family: SUIT;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 800;
+  line-height: normal;
+}
+
+.title_mobile {
+  color: #fff;
+  font-family: SUIT;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 800;
+  line-height: normal;
+}
+
+.upload__pc_btn {
+  width: 50%;
+  border-radius: 8px;
+  background: #1c42bd;
+  padding: 16px 8px;
+  color: #fff;
+  text-align: center;
+  font-family: SUIT;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  border: none;
+}
+.upload___pc_btn:hover,
+.upload___pc_btn:focus,
+.upload__pc_btn:active {
+  background: #383838 !important;
+  border: none !important;
+}
+
+.upload__mobile_btn {
+  width: 100%;
+  border-radius: 8px;
+  background: #383838;
+  padding: 16px 8px;
+  color: #fff;
+  text-align: center;
+  font-family: SUIT;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  border: none;
+}
+.upload__mobile_btn:hover,
+.upload__mobile_btn:focus,
+.upload__mobile_btn:active {
+  background: #383838 !important;
+  border: none !important;
+}
+
+.re__upload__pc_btn {
+  width: 100%;
+  border-radius: 8px;
+  background: #fff !important;
+  padding: 8px;
+  color: #383838 !important;
+  text-align: center;
+  font-family: SUIT;
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 700;
+  border: 1px solid black !important;
+  line-height: normal;
+}
+.re__upload__pc_btn:hover,
+.re__upload__pc_btn:focus,
+.re__upload__pc_btn:active {
+  background: #1c42bd !important;
+  border: none !important;
+  color: #fff !important;
+}
+
+.re__upload__mobile_btn {
+  width: 100%;
+  border-radius: 8px;
+  background: #383838 !important;
+  padding: 8px;
+  color: #fff;
+  text-align: center;
+  font-family: SUIT;
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 700;
+  border: 1px solid black !important;
+  line-height: normal;
+}
+.re__upload__mobile_btn:hover,
+.re__upload__mobile_btn:focus,
+.re__upload__mobile_btn:active {
+  background: #1c42bd !important;
+  border: none !important;
+}
