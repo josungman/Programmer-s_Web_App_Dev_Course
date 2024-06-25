@@ -11,6 +11,12 @@ import TransactionsDetail from "./pages/transaction/TransactionsDetail";
 import MyPrivileges from "./pages/accounts/MyPrivileges";
 import Notice from "./pages/Notice";
 import NoticeDetail from "./pages/NoticeDetail";
+import UserinFlowpath from "./pages/userflowpath/UserinFlowpath";
+import ContentPerformanceResult from "./pages/contentperformanceresult/ContentPerformanceResult";
+import MediaManagement from "./pages/mediamanagement/MediaManagement";
+import RecentActivityDetails from "./pages/recentactivitydetails/RecentActivityDetails";
+import SendingNotifications from "./pages/sendingnotifications/SendingNotifications";
+import Seosetting from "./pages/seosetting/Seosetting";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -45,6 +51,25 @@ function App() {
 
           <Route path="/notice" element={<Notice />} />
           <Route path="/notice/:id" element={<NoticeDetail />} />
+
+          <Route path="/userflowpath" element={<UserinFlowpath />} />
+          <Route
+            path="/contentperformanceresult"
+            element={<ContentPerformanceResult />}
+          />
+          <Route
+            path="/mediamanagement"
+            element={<MediaManagement />}
+          />
+          <Route
+            path="/recentactivitydetails"
+            element={<RecentActivityDetails />}
+          />
+          <Route
+            path="/sendingnotifications"
+            element={<SendingNotifications />}
+          />
+          <Route path="/seosetting" element={<Seosetting />} />
         </Route>
       </Routes>
     </ConfigProvider>

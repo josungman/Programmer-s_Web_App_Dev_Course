@@ -3,11 +3,17 @@ import {
   CreditCardOutlined,
   HomeOutlined,
   LoginOutlined,
+  MediumWorkmarkOutlined,
+  MessageOutlined,
   NotificationOutlined,
+  ReconciliationOutlined,
+  RestOutlined,
+  SendOutlined,
   SettingOutlined,
   SnippetsOutlined,
   TransactionOutlined,
   UserOutlined,
+  UserSwitchOutlined,
 } from "@ant-design/icons";
 import {
   Avatar,
@@ -26,6 +32,8 @@ import {
   useLocation,
   useNavigate,
 } from "react-router-dom";
+import ContentPerformanceResult from "../pages/contentperformanceresult/ContentPerformanceResult";
+import MediaManagement from "../pages/mediamanagement/MediaManagement";
 
 const dropdownItems = [
   {
@@ -62,6 +70,28 @@ const items = [
     getItem("권한", "myprivileges"),
     getItem("설정", "settings"),
   ]),
+  getItem("사용자 유입경로", "userflowpath", <UserSwitchOutlined />),
+  getItem(
+    "콘텐츠 성과 지표",
+    "contentperformanceresult",
+    <RestOutlined />
+  ),
+  getItem(
+    "미디어 관리",
+    "mediamanagement",
+    <MediumWorkmarkOutlined />
+  ),
+  getItem(
+    "최근 활동 내역",
+    "recentactivitydetails",
+    <ReconciliationOutlined />
+  ),
+  getItem(
+    "알림 및 메세지 발송",
+    "sendingnotifications",
+    <MessageOutlined />
+  ),
+  getItem("SEO 설정", "seosetting", <SendOutlined />),
 ];
 
 const PrivateRoute = () => {
