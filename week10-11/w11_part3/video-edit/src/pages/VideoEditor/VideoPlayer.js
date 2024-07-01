@@ -2,12 +2,16 @@
 import { useRef, useState, useEffect } from "react"
 import { Player, BigPlayButton, LoadingSpinner, ControlBar } from "video-react"
 import 'video-react/dist/video-react.css'
+import styles from './VideoPlayer.module.css'
+import useDeviceType from '../../hooks/useDeviceType'
 
 
-const VideoPlayer = ({ src, onPlayerChange = () => { }, onChange = () => { }, onTimeUpdate = () => { }, device, startTime = undefined }) => {
+const VideoPlayer = ({ src, onPlayerChange = () => { }, onChange = () => { }, onTimeUpdate = () => { }, startTime = undefined }) => {
   const [player, setPlayer] = useState(null)
   const [playerState, setPlayerState] = useState(undefined)
   const [source, setSource] = useState()
+
+  const device = useDeviceType()
 
   useEffect(() => {
     setSource(URL.createObjectURL(src))
@@ -30,8 +34,9 @@ const VideoPlayer = ({ src, onPlayerChange = () => { }, onChange = () => { }, on
     }
   }, [player])
 
+
   return (
-    <div className={'video-player'}>
+    <div className={styles.video_player}>
       <Player
         ref={(player) => {
           if (player) {
@@ -40,6 +45,7 @@ const VideoPlayer = ({ src, onPlayerChange = () => { }, onChange = () => { }, on
         }}
         startTime={startTime}
         src={source}
+
       >
         <source src={source} />
         <BigPlayButton position="center" />
@@ -47,7 +53,7 @@ const VideoPlayer = ({ src, onPlayerChange = () => { }, onChange = () => { }, on
         <ControlBar disableCompletely />
       </Player>
       {playerState && (
-        <div className={`overlay-time ${device === 'mobile' ? 'show' : 'hide'}`}>
+        <div className={`${styles.overlay_time} ${device === 'mobile' ? styles.show : styles.hide}`}>
           {Math.floor(playerState.currentTime / 60)}:{('0' + Math.floor(playerState.currentTime % 60)).slice(-2)}
         </div>
       )}

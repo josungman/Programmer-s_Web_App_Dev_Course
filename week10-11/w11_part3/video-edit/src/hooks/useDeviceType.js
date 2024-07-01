@@ -11,11 +11,9 @@ const useDeviceType = () => {
     if (screenWidth <= 768) {
       setDeviceType('mobile')
     }
-    if (screenWidth > 768 && screenWidth <= 1024) {
-      setDeviceType('tablet')
-    }
-    if (screenWidth >= 1024)
+    if (screenWidth > 768) {
       setDeviceType('pc')
+    }
   }
 
   useLayoutEffect(() => {

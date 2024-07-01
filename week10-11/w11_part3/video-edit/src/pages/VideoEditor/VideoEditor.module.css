@@ -29,6 +29,7 @@
   font-weight: 700;
   line-height: normal;
   border: none;
+  margin: 8px;
 }
 .upload___pc_btn:hover,
 .upload___pc_btn:focus,
@@ -50,6 +51,7 @@
   font-weight: 700;
   line-height: normal;
   border: none;
+  margin: 8px;
 }
 .upload__mobile_btn:hover,
 .upload__mobile_btn:focus,
@@ -71,6 +73,7 @@
   font-weight: 700;
   border: 1px solid black !important;
   line-height: normal;
+  margin-left: 2px;
 }
 .re__upload__pc_btn:hover,
 .re__upload__pc_btn:focus,

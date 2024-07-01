@@ -1,70 +1,117 @@
-# Getting Started with Create React App
+# 프로젝트 목표
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+- 기본 기능 위주 완성에 초점, 디자인 최소화(24.06.27~24.06.28)
+- 기본 기능 완료 시점에 추가 기능 작업(24.06.28~24.07.01)
+- 코드 리팩토링 및 상세 검증 예정(24.07.01~ 프로젝트 끝난 이후에도 진
+  행 및 기록)
 
-## Available Scripts
+<br><br>
 
-In the project directory, you can run:
+# 기능적 요구사항 (Functional Requirements)
 
-### `npm start`
+## 비디오 업로드
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+| 구분        | 내용                                                                                                     |
+| ----------- | -------------------------------------------------------------------------------------------------------- |
+| 요구사항 ID | FUN-001                                                                                                  |
+| 요구사항명  | 비디오 업로드                                                                                            |
+| 개요        | 1. 사용자 컴퓨터의 로컬 파일을 업로드하여 정보를 불러온다. <br> 2. 업로드한 파일을 다른 파일로 대체한다. |
+| 입력        | File                                                                                                     |
+| 출력        | URL                                                                                                      |
+| 구현 여부   | 완료(강의 내용 참고)                                                                                     |
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## 비디오 플레이어
 
-### `npm test`
+| 구분        | 내용                                                                                        |
+| ----------- | ------------------------------------------------------------------------------------------- |
+| 요구사항 ID | FUN-002                                                                                     |
+| 요구사항명  | 비디오 플레이어                                                                             |
+| 개요        | 업로드한 비디오를 재생, 중지 할 수 있어야 하며 비디오를 처음부터 끝까지 재생이 되어야 한다. |
+| 입력        | URL                                                                                         |
+| 출력        | Video Player                                                                                |
+| 구현 여부   | 완료(강의 내용 참고)                                                                        |
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## 비디오 편집
 
-### `npm run build`
+| 구분        | 내용                                                                                            |
+| ----------- | ----------------------------------------------------------------------------------------------- |
+| 요구사항 ID | FUN-003                                                                                         |
+| 요구사항명  | 비디오 편집                                                                                     |
+| 개요        | 비디오 편집 기능을 제공한다. <br> 예) 타임라인 조절로 자르는 기능이나 다른 영상을 추가하는 기능 |
+| 입력        | File                                                                                            |
+| 출력        | URL                                                                                             |
+| 구현 여부   | 완료(강의 내용 참고)                                                                            |
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## 비디오 다운로드
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+| 구분        | 내용                                        |
+| ----------- | ------------------------------------------- |
+| 요구사항 ID | FUN-004                                     |
+| 요구사항명  | 비디오 다운로드                             |
+| 개요        | 편집한 비디오를 다운로드 받을 수 있게 한다. |
+| 입력        |                                             |
+| 출력        | video                                       |
+| 구현 여부   | 완료(강의 내용 참고)                        |
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+<br><br>
 
-### `npm run eject`
+# 추가 기능
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## 비디오 업로드 진행률 표시
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+| 구분        | 내용                                                                                     |
+| ----------- | ---------------------------------------------------------------------------------------- |
+| 요구사항 ID | FUN-001-1                                                                                |
+| 요구사항명  | 비디오 업로드 진행률 표시                                                                |
+| 개요        | 1. 비디오 업로드 시 진행률 표시줄을 제공하여 사용자가 업로드 상태를 확인할 수 있게 한다. |
+| 입력        | File                                                                                     |
+| 출력        | Progress Bar                                                                             |
+| 구현 여부   | 완료                                                                                     |
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## 재생 시간 표시
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+| 구분        | 내용                                                                                                                    |
+| ----------- | ----------------------------------------------------------------------------------------------------------------------- |
+| 요구사항 ID | FUN-002-1                                                                                                               |
+| 요구사항명  | 재생 시간 표시                                                                                                          |
+| 개요        | 1. 비디오 플레이시 재생시간이 표시 될 수 있도록 한다. <br> 2. PC,모바일 화면 재생 시간 위치를 다르게 할 수 있도록 한다. |
+| 입력        |                                                                                                                         |
+| 출력        |                                                                                                                         |
+| 구현 여부   | 완료                                                                                                                    |
 
-## Learn More
+## 유튜브 영상 검색 후 해당 영상 편집
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+| 구분        | 내용                                                                                                                                                                |
+| ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 요구사항 ID | FUN-003-1                                                                                                                                                           |
+| 요구사항명  | 유튜브 영상 검색 후 해당 영상 편집                                                                                                                                  |
+| 개요        | 1. 유튜브 영상을 검색할 수 있는 화면을 만든다. <br> 2. 다운로드 버튼을 누르면 편집 화면으로 이동후 해당 영상이 업로드 된다.                                         |
+| 입력        |                                                                                                                                                                     |
+| 출력        |                                                                                                                                                                     |
+| 구현 여부   | 완료 <br> - youtube data api v3 API 하루 한도가 있어서 한도 소진지 youtube url 입력하여 영상 업로드 할 수 있도록 구현 <br> - 외부 영상 다운로드는 backend 서버 이용 |
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## 비디오 음성 다운로드
 
-### Code Splitting
+| 구분        | 내용                                                                                                       |
+| ----------- | ---------------------------------------------------------------------------------------------------------- |
+| 요구사항 ID | FUN-004-1                                                                                                  |
+| 요구사항명  | 비디오 음성 다운로드                                                                                       |
+| 개요        | 1. 편집한 비디오 음성을 다운로드 할 수 있도록 한다. <br> 2. PC화면만 표출 될 수 있도록 한다.(\*디자인참고) |
+| 입력        |                                                                                                            |
+| 출력        | mp3                                                                                                        |
+| 구현 여부   | 완료                                                                                                       |
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+<br><br>
 
-### Analyzing the Bundle Size
+# 시스템 구성 요구사항 (Equipment Composition Requirements)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+## Deploy
 
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+| 구분        | 내용                                                              |
+| ----------- | ----------------------------------------------------------------- |
+| 요구사항 ID | ECR-001                                                           |
+| 요구사항명  | Deploy                                                            |
+| 개요        | 비디오 플레이어의 배포는 Vercel을 활용하며, 도메인은 자유로 한다. |
+| 입력        |                                                                   |
+| 출력        |                                                                   |
+| 구현 여부   | 작업중(강의 내용 참고)                                            |
