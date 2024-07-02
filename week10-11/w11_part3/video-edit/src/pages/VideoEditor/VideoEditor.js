@@ -1,34 +1,33 @@
 import { useState, useRef, useEffect } from 'react';
 import { createFFmpeg } from '@ffmpeg/ffmpeg';
-import { Button, Modal, Toast, ToastContainer } from 'react-bootstrap';
+import { Button, Modal, Toast, ToastContainer, Container, Image } from 'react-bootstrap';
 import { Progress } from 'antd';
 import { useNavigate, useLocation } from 'react-router-dom';
 import styles from './VideoEditor.module.css';
 import video_placeholder from '../../assets/images/editor/video_placeholder.png';
-import VideoPlayer from './VideoPlayer';
+import ReactPlayer from 'react-player';
 import MultiRangeSlider from '../../components/MultiRangeSlider';
 import VideoConversionButton from './VideoConversionButton';
 import { sliderValueToVideoTime } from '../../utils/utils';
-
 import useDeviceType from '../../hooks/useDeviceType';
 
-const rootDiv = document.getElementById('root');
 const ffmpeg = createFFmpeg({ log: true });
 
 const VideoEditor = () => {
   const location = useLocation();
   const device = useDeviceType();
   const uploadFile = useRef('');
+  const playerRef = useRef(null);
   const [ffmpegLoaded, setFFmpegLoaded] = useState(false);
   const [sliderValues, setSliderValues] = useState([0, 100]);
-  const [videoPlayerState, setVideoPlayerState] = useState();
-  const [videoPlayer, setVideoPlayer] = useState();
   const [videoFile, setVideoFile] = useState(null);
+  const [videoUrl, setVideoUrl] = useState('');
   const [processing, setProcessing] = useState(false);
   const [percentage, setPercentage] = useState(0);
   const [currentTime, setCurrentTime] = useState(0);
   const [isCancelled, setIsCancelled] = useState(false);
   const [show, setShow] = useState(false);
+  const [playerState, setPlayerState] = useState({ duration: 0, playedSeconds: 0 });
 
   const navigate = useNavigate();
 
@@ -44,35 +43,10 @@ const VideoEditor = () => {
 
   useEffect(() => {
     const min = sliderValues[0];
-    if (min !== undefined && videoPlayerState && videoPlayer) {
-      videoPlayer.seek(sliderValueToVideoTime(videoPlayerState.duration, min));
+    if (min !== undefined && playerState.duration) {
+      playerRef.current.seekTo(sliderValueToVideoTime(playerState.duration, min), 'seconds');
     }
-  }, [sliderValues]);
-
-  // Device 상태값에 따라 상위 태그 넓이 변경
-  useEffect(() => {
-    console.log('device type:', device);
-    if (device === 'mobile') {
-      rootDiv.style.width = '';
-    } else {
-      rootDiv.style.width = '910px';
-    }
-  }, [device]);
-
-  useEffect(() => {
-    if (videoPlayer && videoPlayerState) {
-      const [min, max] = sliderValues;
-      const minTime = sliderValueToVideoTime(videoPlayerState.duration, min);
-      const maxTime = sliderValueToVideoTime(videoPlayerState.duration, max);
-
-      if (videoPlayerState.currentTime < minTime) {
-        videoPlayer.seek(minTime);
-      }
-      if (videoPlayerState.currentTime > maxTime) {
-        videoPlayer.seek(minTime);
-      }
-    }
-  }, [videoPlayerState]);
+  }, [sliderValues, playerState.duration]);
 
   useEffect(() => {
     if (location.state && location.state.videoFile) {
@@ -83,13 +57,18 @@ const VideoEditor = () => {
   }, [location.state, navigate]);
 
   useEffect(() => {
-    if (!videoFile) {
-      setVideoPlayerState(undefined);
+    if (videoFile) {
+      const url = URL.createObjectURL(videoFile);
+      setVideoUrl(url);
+
+      return () => {
+        URL.revokeObjectURL(url);
+      };
+    } else {
+      setPlayerState({ duration: 0, playedSeconds: 0 });
     }
-    // console.log('videoFile : ', videoFile);
   }, [videoFile]);
 
-  // Percentage 완료후 음수처리 되는 부분이 있어 음수 또는 100% 시 0%로 초기화
   const handleProgress = ({ ratio }) => {
     const percentValue = Math.round(ratio * 100);
     if (percentValue < 0 || percentValue >= 100) {
@@ -99,203 +78,258 @@ const VideoEditor = () => {
     }
   };
 
-  const handleCancel = () => {
-    setIsCancelled(true);
-    setProcessing(false);
-  };
-
-  const handleTimeUpdate = (time) => {
-    setCurrentTime(time);
-  };
-
   const gotoYoutubeVideoList = () => {
     navigate('/youtubevideolist');
   };
 
+  const renderMobileView = () => (
+    <Container className="mobile_layout" style={{ padding: '56px 16px' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
+        <h1 className={styles.title_mobile}>Video Edit</h1>
+        {videoFile && (
+          <div>
+            <input
+              onChange={(e) => setVideoFile(e.target.files[0])}
+              type="file"
+              accept="video/*"
+              style={{ display: 'none' }}
+              ref={uploadFile}
+            />
+            <Button
+              onClick={() => uploadFile.current.click()}
+              className={styles.re__upload__mobile_btn}
+              style={{ width: 'fit-content' }}
+            >
+              재선택(로컬)
+            </Button>
+            <Button
+              onClick={gotoYoutubeVideoList}
+              className={styles.re__upload__mobile_btn}
+              style={{ width: 'fit-content' }}
+            >
+              재선택(유튜브)
+            </Button>
+          </div>
+        )}
+      </div>
+      <section>
+        {videoFile ? (
+          <div style={{ position: 'relative' }}>
+            <ReactPlayer
+              width="100%"
+              height="200px"
+              ref={playerRef}
+              url={videoUrl}
+              controls={true}
+              playing
+              playsinline
+              config={{
+                file: {
+                  attributes: {
+                    playsInline: true,
+                  },
+                },
+              }}
+              onDuration={(duration) => {
+                setPlayerState((prevState) => ({ ...prevState, duration }));
+              }}
+              onProgress={({ playedSeconds }) => {
+                const maxTime = sliderValueToVideoTime(playerState.duration, sliderValues[1]);
+                const minTime = sliderValueToVideoTime(playerState.duration, sliderValues[0]);
+
+                setPlayerState((prevState) => ({ ...prevState, playedSeconds }));
+
+                if (maxTime !== null && playedSeconds >= maxTime) {
+                  playerRef.current.seekTo(minTime, 'seconds');
+                }
+
+                setCurrentTime(playedSeconds);
+
+              }}
+              className={styles.react__player}
+            />
+            <div style={{ position: 'absolute', top: 0, left: 0, padding: '8px', color: 'white', background: 'rgba(0, 0, 0, 0.5)', borderRadius: '0 0 4px 0' }}>
+              {Math.floor(currentTime / 60)}:{('0' + Math.floor(currentTime % 60)).slice(-2)}
+            </div>
+          </div>
+        ) : (
+          <>
+            <Image src={video_placeholder} alt="비디오를 업로드해주세요" style={{ marginBottom: 32, width: '100%' }} />
+            <div>
+              <input
+                onChange={(e) => setVideoFile(e.target.files[0])}
+                type="file"
+                accept="video/*"
+                style={{ display: 'none' }}
+                ref={uploadFile}
+              />
+              <Button onClick={() => uploadFile.current.click()} className={styles.upload__mobile_btn}>
+                비디오업로드하기
+              </Button>
+              <Button onClick={gotoYoutubeVideoList} className={styles.upload__mobile_btn}>
+                비디오업로드하기(유튜브)
+              </Button>
+            </div>
+          </>
+        )}
+      </section>
+      {videoFile && (
+        <>
+          <section style={{ width: '100%', marginTop: 30, marginBottom: 62, display: 'flex', justifyContent: 'center' }}>
+            <MultiRangeSlider
+              min={0}
+              max={100}
+              onChange={({ min, max }) => setSliderValues([min, max])}
+            />
+          </section>
+          <section>
+            <VideoConversionButton
+              onConversionStart={() => {
+                setProcessing(true);
+                setIsCancelled(false);
+              }}
+              onConversionEnd={() => {
+                setProcessing(false);
+                setShow(true);
+              }}
+              ffmpeg={ffmpeg}
+              videoPlayerState={playerState}
+              sliderValues={sliderValues}
+              videoFile={videoFile}
+              onProgress={handleProgress}
+              isCancelled={isCancelled}
+            />
+          </section>
+        </>
+      )}
+    </Container>
+  );
+
+  const renderDesktopView = () => (
+    <Container className={styles.pc_layout} style={{ padding: '56px 16px', width: '100%', backgroundColor: '#FFFFFF' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
+        <h1 className={styles.title_pc}>Video Edit</h1>
+        {videoFile && (
+          <div>
+            <input
+              onChange={(e) => setVideoFile(e.target.files[0])}
+              type="file"
+              accept="video/*"
+              style={{ display: 'none' }}
+              ref={uploadFile}
+            />
+            <Button
+              onClick={() => uploadFile.current.click()}
+              className={styles.re__upload__pc_btn}
+              style={{ width: 'fit-content' }}
+            >
+              재선택(로컬)
+            </Button>
+            <Button
+              onClick={gotoYoutubeVideoList}
+              className={styles.re__upload__pc_btn}
+              style={{ width: 'fit-content' }}
+            >
+              재선택(유튜브)
+            </Button>
+          </div>
+        )}
+      </div>
+      <section>
+        {videoFile ? (
+          <ReactPlayer
+            ref={playerRef}
+            width="100%"
+            height="500px"
+            url={videoUrl}
+            controls={true}
+            playing
+            playsinline
+            config={{
+              file: {
+                attributes: {
+                  playsInline: true,
+                },
+              },
+            }}
+            onDuration={(duration) => {
+              setPlayerState((prevState) => ({ ...prevState, duration }));
+            }}
+            onProgress={({ playedSeconds }) => {
+              const maxTime = sliderValueToVideoTime(playerState.duration, sliderValues[1]);
+              const minTime = sliderValueToVideoTime(playerState.duration, sliderValues[0]);
+
+              setPlayerState((prevState) => ({ ...prevState, playedSeconds }));
+
+              if (maxTime !== null && playedSeconds >= maxTime) {
+                playerRef.current.seekTo(minTime, 'seconds');
+              }
+
+              setCurrentTime(playedSeconds);
+            }}
+            className={styles.react__player}
+          />
+        ) : (
+          <>
+            <Image src={video_placeholder} alt="비디오를 업로드해주세요" style={{ marginBottom: 32, width: '100%' }} />
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+              <input
+                onChange={(e) => setVideoFile(e.target.files[0])}
+                type="file"
+                accept="video/*"
+                style={{ display: 'none' }}
+                ref={uploadFile}
+              />
+              <Button onClick={() => uploadFile.current.click()} className={styles.upload__pc_btn}>
+                비디오업로드하기(로컬)
+              </Button>
+              <Button onClick={gotoYoutubeVideoList} className={styles.upload__pc_btn}>
+                비디오업로드하기(유튜브)
+              </Button>
+            </div>
+          </>
+        )}
+      </section>
+      {videoFile && (
+        <>
+          <section style={{ width: '100%', marginTop: 15, marginBottom: 30, display: 'flex', justifyContent: 'center' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+              <p style={{ fontSize: '22px', justifyContent: 'center', alignItems: 'center' }}>
+                재생시간 : <span style={{ fontWeight: 'bold' }}>{currentTime}초</span>
+              </p>
+              <MultiRangeSlider
+                min={0}
+                max={100}
+                onChange={({ min, max }) => setSliderValues([min, max])}
+              />
+            </div>
+          </section>
+          <section style={{ display: 'flex', gap: 16 }}>
+            <VideoConversionButton
+              onConversionStart={() => {
+                setProcessing(true);
+                setIsCancelled(false);
+              }}
+              onConversionEnd={() => {
+                setProcessing(false);
+                setShow(true);
+              }}
+              ffmpeg={ffmpeg}
+              videoPlayerState={playerState}
+              sliderValues={sliderValues}
+              videoFile={videoFile}
+              onProgress={handleProgress}
+              isCancelled={isCancelled}
+            />
+          </section>
+        </>
+      )}
+    </Container>
+  );
+
   return (
     <>
-      {device === 'mobile' ? (
-        <article className="layout" style={{ padding: '56px 16px' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
-            <h1 className={styles.title_mobile}>Video Edit</h1>
-            {videoFile && (
-              <div>
-                <input
-                  onChange={(e) => setVideoFile(e.target.files[0])}
-                  type="file"
-                  accept="video/*"
-                  style={{ display: 'none' }}
-                  ref={uploadFile}
-                />
-                <Button
-                  onClick={() => uploadFile.current.click()}
-                  className={styles.re__upload__mobile_btn}
-                  style={{ width: 'fit-content' }}
-                >
-                  비디오 재선택(로컬)
-                </Button>
-                <Button
-                  onClick={gotoYoutubeVideoList}
-                  className={styles.re__upload__mobile_btn}
-                  style={{ width: 'fit-content' }}
-                >
-                  비디오 재선택(유튜브)
-                </Button>
-              </div>
-            )}
-          </div>
-          <section>
-            {videoFile ? (
-              <VideoPlayer
-                src={videoFile}
-                onPlayerChange={(videoPlayer) => setVideoPlayer(videoPlayer)}
-                onChange={(videoPlayerState) => setVideoPlayerState(videoPlayerState)}
-                onTimeUpdate={handleTimeUpdate}
-              />
-            ) : (
-              <>
-                <img src={video_placeholder} alt="비디오를 업로드해주세요" style={{ marginBottom: 32 }} />
-                <div>
-                  <input
-                    onChange={(e) => setVideoFile(e.target.files[0])}
-                    type="file"
-                    accept="video/*"
-                    style={{ display: 'none' }}
-                    ref={uploadFile}
-                  />
-                  <Button onClick={() => uploadFile.current.click()} className={styles.upload__mobile_btn}>
-                    비디오업로드하기
-                  </Button>
-                  <Button onClick={gotoYoutubeVideoList} className={styles.upload__mobile_btn}>
-                    비디오업로드하기(유튜브)
-                  </Button>
-                </div>
-              </>
-            )}
-          </section>
-          {videoFile && (
-            <>
-              <section style={{ width: '100%', marginTop: 30, marginBottom: 62, display: 'flex', justifyContent: 'center' }}>
-                <MultiRangeSlider
-                  min={0}
-                  max={100}
-                  onChange={({ min, max }) => setSliderValues([min, max])}
-                />
-              </section>
-              <section>
-                <VideoConversionButton
-                  onConversionStart={() => {
-                    setProcessing(true);
-                    setIsCancelled(false);
-                  }}
-                  onConversionEnd={() => {
-                    setProcessing(false);
-                    setShow(true);
-                  }}
-                  ffmpeg={ffmpeg}
-                  videoPlayerState={videoPlayerState}
-                  sliderValues={sliderValues}
-                  videoFile={videoFile}
-                  onProgress={handleProgress}
-                  isCancelled={isCancelled}
-                />
-              </section>
-            </>
-          )}
-        </article>
-      ) : (
-        <article style={{ padding: '56px 16px', width: '100%', backgroundColor: '#FFFFFF' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
-            <h1 className={styles.title_pc}>Video Edit</h1>
-            {videoFile && (
-              <div>
-                <input
-                  onChange={(e) => setVideoFile(e.target.files[0])}
-                  type="file"
-                  accept="video/*"
-                  style={{ display: 'none' }}
-                  ref={uploadFile}
-                />
-                <Button
-                  onClick={() => uploadFile.current.click()}
-                  className={styles.re__upload__pc_btn}
-                  style={{ width: 'fit-content' }}
-                >
-                  비디오 재선택(로컬)
-                </Button>
-                <Button
-                  onClick={gotoYoutubeVideoList}
-                  className={styles.re__upload__pc_btn}
-                  style={{ width: 'fit-content' }}
-                >
-                  비디오  재선택(유튜브)
-                </Button>
-              </div>
-            )}
-          </div>
-          <section>
-            {videoFile ? (
-              <VideoPlayer
-                src={videoFile}
-                onPlayerChange={(videoPlayer) => setVideoPlayer(videoPlayer)}
-                onChange={(videoPlayerState) => setVideoPlayerState(videoPlayerState)}
-                onTimeUpdate={handleTimeUpdate}
-              />
-            ) : (
-              <>
-                <img src={video_placeholder} alt="비디오를 업로드해주세요" style={{ marginBottom: 32, width: '100%' }} />
-                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                  <input
-                    onChange={(e) => setVideoFile(e.target.files[0])}
-                    type="file"
-                    accept="video/*"
-                    style={{ display: 'none' }}
-                    ref={uploadFile}
-                  />
-                  <Button onClick={() => uploadFile.current.click()} className={styles.upload__pc_btn}>
-                    비디오업로드하기(로컬)
-                  </Button>
-                  <Button onClick={gotoYoutubeVideoList} className={styles.upload__pc_btn}>
-                    비디오업로드하기(유튜브)
-                  </Button>
-                </div>
-              </>
-            )}
-          </section>
-          {videoFile && (
-            <>
-              <section style={{ width: '100%', marginTop: 30, marginBottom: 62, display: 'flex', justifyContent: 'center' }}>
-                <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-                  <p style={{ fontSize: '22px', justifyContent: 'center', alignItems: 'center' }}> 재생시간 : <span style={{ fontWeight: 'bold' }}>{currentTime}초</span> </p>
-                  <MultiRangeSlider
-                    min={0}
-                    max={100}
-                    onChange={({ min, max }) => setSliderValues([min, max])}
-                  />
-                </div>
-              </section>
-              <section style={{ display: 'flex', gap: 16 }}>
-                <VideoConversionButton
-                  onConversionStart={() => {
-                    setProcessing(true);
-                    setIsCancelled(false);
-                  }}
-                  onConversionEnd={() => {
-                    setProcessing(false);
-                    setShow(true);
-                  }}
-                  ffmpeg={ffmpeg}
-                  videoPlayerState={videoPlayerState}
-                  sliderValues={sliderValues}
-                  videoFile={videoFile}
-                  onProgress={handleProgress}
-                  isCancelled={isCancelled}
-                />
-              </section>
-            </>
-          )}
-        </article>
-      )}
+      {device === 'mobile' ? renderMobileView() : renderDesktopView()}
 
       <ToastContainer className="p-3" position="top-center" style={{ zIndex: 1 }}>
         <Toast onClose={() => setShow(false)} show={show} delay={2000} bg="dark" autohide>

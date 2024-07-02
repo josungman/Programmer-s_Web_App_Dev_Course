@@ -134,9 +134,10 @@ body,
   justify-content: center;
   align-items: flex-start;
   font-family: "Nanum Pen Script";
-  min-height: 100vh;
+  min-height: 80%;
   margin: 0px;
   background: #1c1c1c;
+  width: 100%;
 }
 
 @media (min-width: 768px) {
@@ -145,9 +146,4 @@ body,
   #root {
     background: #ffffff;
   }
-}
-
-.layout {
-  width: 393px;
-  margin: 0 auto;
 }

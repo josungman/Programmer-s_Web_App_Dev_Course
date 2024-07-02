@@ -18,13 +18,6 @@ const VideoPlayer = ({ src, onPlayerChange = () => { }, onChange = () => { }, on
   }, [src])
 
   useEffect(() => {
-    if (playerState) {
-      onChange(playerState)
-      onTimeUpdate(playerState.currentTime) // 현재 재생 시간 추출 및 콜백 함수 호출
-    }
-  }, [playerState])
-
-  useEffect(() => {
     if (player) {
       onPlayerChange(player)
       player.subscribeToStateChange((state) => {
@@ -34,6 +27,12 @@ const VideoPlayer = ({ src, onPlayerChange = () => { }, onChange = () => { }, on
     }
   }, [player])
 
+  useEffect(() => {
+    if (playerState) {
+      onChange(playerState)
+      onTimeUpdate(playerState.currentTime) // 현재 재생 시간 추출 및 콜백 함수 호출
+    }
+  }, [playerState])
 
   return (
     <div className={styles.video_player}>

@@ -1,4 +1,4 @@
-import { Form, Button, Spinner, Modal, Container, Row, Col } from 'react-bootstrap';
+import { Form, Button, Spinner, Modal, Container, Row, Col, Image } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import React, { useState, useEffect, useRef } from 'react';
 import getyoutubelist from '../../apis/getyoutubelist';
@@ -81,7 +81,7 @@ function YoutubeVideoList() {
           </Button>
         </Col>
         <Col>
-          <h2 className="text-center mb-0">유튜브 리스트</h2>
+          <h2 style={{ color: '#3CB371' }} className="text-center mb-0">유튜브 리스트</h2>
         </Col>
       </Row>
 
@@ -125,10 +125,10 @@ function YoutubeVideoList() {
         {videos.map((video) => (
           <Col key={video.id.videoId} xs={12} sm={6} md={4} lg={3} className="mb-3">
             <div className={styles.video__list__item}>
-              <img src={video.snippet.thumbnails.medium.url} alt={video.snippet.title} className="img-fluid" />
-              <p className={styles.video__title}>{video.snippet.title}</p>
+              <Image src={video.snippet.thumbnails.medium.url} alt={video.snippet.title} className="img-fluid" />
+              <p style={{ color: '#3CB371' }} className={styles.video__title}>{video.snippet.title}</p>
               <Button onClick={() => handleDownload(video.id.videoId)} size="sm" variant="info" className={styles.down__button}>
-                다운로드
+                로컬에서 편집하기
               </Button>
             </div>
           </Col>

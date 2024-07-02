@@ -8,6 +8,8 @@ const instance = axios.create({
     part: 'snippet',
     maxResults: 10,
     key: youtubeapikey, // 여기에 발급받은 API 키를 넣어주세요.
+    videoDuration: 'short', // 영상 길이가 짧은 동영상만 가져오도록 설정
+    type: 'video', // 비디오 타입으로 검색
   },
 });
 

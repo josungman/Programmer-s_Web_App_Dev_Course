@@ -103,3 +103,42 @@
   background: #1c42bd !important;
   border: none !important;
 }
+
+/* 비디오 컨트롤을 항상 표시하도록 설정 */
+.react__player video::-webkit-media-controls {
+  display: flex !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+  visibility: visible !important;
+}
+
+.react__player video::-webkit-media-controls-enclosure {
+  display: flex !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+  visibility: visible !important;
+}
+
+.react__player video::-webkit-media-controls-panel {
+  display: flex !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+  visibility: visible !important;
+}
+
+.react__player video::-webkit-media-controls-overlay-play-button {
+  display: none !important;
+}
+
+.react__player video::-webkit-media-controls-play-button,
+.react__player video::-webkit-media-controls-timeline,
+.react__player video::-webkit-media-controls-current-time-display,
+.react__player video::-webkit-media-controls-time-remaining-display,
+.react__player video::-webkit-media-controls-fullscreen-button,
+.react__player video::-webkit-media-controls-mute-button,
+.react__player video::-webkit-media-controls-volume-slider {
+  display: flex !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+  visibility: visible !important;
+}
