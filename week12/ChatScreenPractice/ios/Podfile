@@ -23,12 +23,18 @@ target 'ChatScreenPractice' do
     :app_path => "#{Pod::Config.instance.installation_root}/.."
   )
 
+  # Flipper 관련 설정을 주석 처리 또는 삭제
+  # use_flipper!({ 'Flipper-Folly' => '2.6.10' })
+
   target 'ChatScreenPracticeTests' do
     inherit! :complete
     # Pods for testing
   end
 
   post_install do |installer|
+    # Flipper 관련 post_install 설정을 주석 처리 또는 삭제
+    # flipper_post_install(installer)
+
     # https://github.com/facebook/react-native/blob/main/packages/react-native/scripts/react_native_pods.rb#L197-L202
     react_native_post_install(
       installer,
@@ -38,3 +44,4 @@ target 'ChatScreenPractice' do
     )
   end
 end
+
