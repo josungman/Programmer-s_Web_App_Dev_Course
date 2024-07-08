@@ -1,3 +1,4 @@
+import {useNavigation} from '@react-navigation/native';
 import React, {useRef} from 'react';
 import {
   Animated,
@@ -9,6 +10,8 @@ import {
 } from 'react-native';
 
 const AnimateExample = () => {
+  const navigation = useNavigation();
+  console.log('navigation', navigation);
   // fadeAnim will be used as the value for opacity. Initial Value: 0
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const moveAnim = useRef(new Animated.Value(0)).current;
@@ -49,6 +52,10 @@ const AnimateExample = () => {
     }).start();
   };
 
+  const movetoDetail = () => {
+    navigation.navigate('Detail', {test: '안녕하세요'});
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <Animated.View
@@ -67,6 +74,7 @@ const AnimateExample = () => {
         <Button title="move to left" onPress={moveToLeft} />
         <Button title="Fade In View" onPress={fadeIn} />
         <Button title="Fade Out View" onPress={fadeOut} />
+        <Button title="Detail" onPress={movetoDetail} />
       </View>
     </SafeAreaView>
   );
