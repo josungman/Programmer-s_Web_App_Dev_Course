@@ -8,14 +8,22 @@ import {
   StyleSheet,
   TouchableOpacity,
   FlatList,
+  Dimensions,
 } from 'react-native';
 import LeftBubble from '../components/LeftBubble';
 import RightBubble from '../components/RightBubble';
 import Toast from '../components/Toast';
+import Modal from 'react-native-modal';
+import ImagePicker from 'react-native-image-crop-picker';
 
 const leftArrow = require('../assets/icons/leftArrow.png');
-
 const plusIcon = require('../assets/icons/plus.png');
+
+const photoButton = require('../assets/icons/chat/photoButton.png');
+const cameraButton = require('../assets/icons/chat/cameraButton.png');
+const voiceButton = require('../assets/icons/chat/voiceButton.png');
+
+const {width} = Dimensions.get('window');
 
 const dummy_data = [
   {
@@ -84,17 +92,49 @@ const dummy_data = [
   },
 ];
 
-const ChatScreen = () => {
+const ChatScreen = ({route, navigation}) => {
   const [toastVisible, setToastVisible] = useState(false);
+  const [modalVisible, setmodalVisible] = useState(false);
+  const [selectedImage, setSelectedImage] = useState();
+
+  const {name} = route.params.params;
+
+  const onSelect = data => {
+    console.log('data', data);
+    setSelectedImage(data);
+  };
+
+  const goToCameraRoll = () => {
+    setmodalVisible(false);
+    navigation.navigate('CustomCameraRoll', {onSelect: data => onSelect(data)});
+  };
+
+  const handleCamera = () => {
+    // ImagePicker.openPicker({
+    //   width: 300,
+    //   height: 400,
+    //   cropping: true,
+    // }).then(image => {
+    //   console.log(image);
+    // });
+
+    ImagePicker.openCamera({
+      width: 300,
+      height: 400,
+      cropping: true,
+    }).then(image => {
+      console.log(image);
+    });
+  };
 
   return (
     <SafeAreaView style={styles.safeAreaViewStyyles}>
       <View style={styles.mainContainer}>
         <View style={styles.headerWrapper}>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.goBack()}>
             <Image source={leftArrow} style={styles.backButton} />
           </TouchableOpacity>
-          <Text style={styles.headerTitle}>이민구</Text>
+          <Text style={styles.headerTitle}>{name}</Text>
           <View style={styles.backButton} />
         </View>
 
@@ -117,10 +157,15 @@ const ChatScreen = () => {
             showsVerticalScrollIndicator={false}
           />
         </View>
+        {selectedImage && (
+          <View style={{position: 'absolute', bottom: 8, right: 16}}>
+            <Image source={selectedImage} style={{width: 60, height: 60}} />
+          </View>
+        )}
       </View>
       <View style={{padding: 16, flexDirection: 'row'}}>
         <TouchableOpacity
-          onPress={() => setToastVisible(!toastVisible)}
+          onPress={() => setmodalVisible(!modalVisible)}
           style={{
             borderWidth: 1,
             borderColor: '#EFEFEF',
@@ -149,6 +194,82 @@ const ChatScreen = () => {
         visible={toastVisible}
         handleCancel={() => setToastVisible(false)}
       />
+      <Modal
+        isVisible={modalVisible}
+        useNativeDriver
+        animationIn="slideInUp"
+        animationOut="slideOutDown"
+        animationInTiming={200}
+        animationOutTiming={200}
+        backdropOpacity={0}
+        style={{
+          margin: 0,
+          justifyContent: 'flex-end',
+          alignItems: 'flex-end',
+        }}>
+        <View
+          style={{
+            width: width,
+            backgroundColor: '#fff',
+            paddingTop: 10,
+            height: 176,
+          }}>
+          <View style={{padding: 16, flexDirection: 'row'}}>
+            <TouchableOpacity
+              onPress={() => setmodalVisible(!modalVisible)}
+              style={{
+                borderWidth: 1,
+                borderColor: '#EFEFEF',
+                borderRadius: 20,
+                width: 40,
+                height: 40,
+                justifyContent: 'center',
+                alignItems: 'center',
+                marginRight: 8,
+              }}>
+              <Image
+                source={plusIcon}
+                style={{width: 12, height: 12, transform: [{rotate: '45deg'}]}}
+              />
+            </TouchableOpacity>
+            <TextInput
+              placeholder="메세지 입력하기"
+              style={{
+                borderWidth: 1,
+                borderColor: '#EFEFEF',
+                borderRadius: 20,
+                flex: 1,
+                paddingHorizontal: 12,
+              }}
+            />
+          </View>
+          <View style={{flexDirection: 'row', gap: 40, marginLeft: 40}}>
+            <TouchableOpacity
+              onPress={() => goToCameraRoll()}
+              style={{gap: 4, justifyContent: 'center', alignItems: 'center'}}>
+              <Image source={photoButton} style={{width: 48, height: 48}} />
+              <Text style={{fontSize: 13, fontWeight: '400', color: '#828282'}}>
+                앨범
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => handleCamera()}
+              style={{gap: 4, justifyContent: 'center', alignItems: 'center'}}>
+              <Image source={cameraButton} style={{width: 48, height: 48}} />
+              <Text style={{fontSize: 13, fontWeight: '400', color: '#828282'}}>
+                카메라
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={{gap: 4, justifyContent: 'center', alignItems: 'center'}}>
+              <Image source={voiceButton} style={{width: 48, height: 48}} />
+              <Text style={{fontSize: 13, fontWeight: '400', color: '#828282'}}>
+                음성녹음
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
     </SafeAreaView>
   );
 };
