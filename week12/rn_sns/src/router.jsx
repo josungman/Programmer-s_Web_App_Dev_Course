@@ -1,23 +1,45 @@
 import React from 'react';
 import {View} from 'react-native';
-import {createStackNavigator} from '@react-navigation/stack';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Splash from './pages/Splash';
+import CustomBottomTab from './components/CustomBottomTab';
 import Home from './pages/Home';
+import Search from './pages/Search';
+import Add from './pages/Add';
+import Play from './pages/Play';
+import Mypage from './pages/Mypage';
+import SearchList from './pages/SearchList';
 
-const Stack = createStackNavigator();
+const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
+
+const renderTabBar = props => <CustomBottomTab {...props} />;
+
+const SearchTab = () => {
+  return (
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}>
+      <Stack.Screen name="Search" component={Search} />
+      <Stack.Screen name="SearchList" component={SearchList} />
+    </Stack.Navigator>
+  );
+};
 
 const MainTab = () => {
   return (
     <Tab.Navigator
+      tabBar={renderTabBar}
       screenOptions={{
         headerShown: false,
       }}>
-      <Tab.Screen name="Home" component={Home} />
-      {/* <Tab.Screen name="Chat" component={ChatScreen} />
-      <Tab.Screen name="VideoPlayer" component={VideoPlayer} />
-      <Tab.Screen name="Settings" component={Settings} /> */}
+      <Tab.Screen name="홈" component={Home} />
+      <Tab.Screen name="검색" component={SearchTab} />
+      <Tab.Screen name="추가" component={Add} />
+      <Tab.Screen name="쇼츠" component={Play} />
+      <Tab.Screen name="마이페이지" component={Mypage} />
     </Tab.Navigator>
   );
 };

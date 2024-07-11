@@ -20,7 +20,10 @@ target 'rn_sns' do
   use_react_native!(
     :path => config[:reactNativePath],
     # An absolute path to your application root.
-    :app_path => "#{Pod::Config.instance.installation_root}/.."
+    :app_path => "#{Pod::Config.instance.installation_root}/..",
+    
+    # 아래에 Hermes 활성화 추가
+    :hermes_enabled => true
   )
 
   target 'rn_snsTests' do
