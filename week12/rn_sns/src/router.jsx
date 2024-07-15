@@ -10,6 +10,7 @@ import Add from './pages/Add';
 import Play from './pages/Play';
 import Mypage from './pages/Mypage';
 import SearchList from './pages/SearchList';
+import Follower from './pages/Follower';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -53,6 +54,7 @@ const Router = () => {
       }}>
       <Stack.Screen name="Splash" component={Splash} />
       <Stack.Screen name="MainTab" component={MainTab} />
+      <Stack.Screen name="Follower" component={Follower} />
     </Stack.Navigator>
   );
 };

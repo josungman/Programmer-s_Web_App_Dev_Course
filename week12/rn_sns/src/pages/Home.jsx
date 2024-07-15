@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   SafeAreaView,
   View,
@@ -10,6 +10,10 @@ import {
   Dimensions,
 } from 'react-native';
 import CommentsModal from '../components/CommentsModal';
+import fonts from '../styles/fonts';
+import {API} from '../apis';
+import {getAppVersion} from '../apis/basic';
+import {getMyInfo} from '../apis/user';
 
 const logo = require('../assets/icons/logo.png');
 const heart = require('../assets/icons/heart.png');
@@ -114,6 +118,17 @@ const dummy_feed = [
 ];
 
 const Home = () => {
+  const [myInfo, setMyInfo] = useState([]);
+
+  useEffect(() => {
+    getAppVersion();
+    async function getMyInfoApi() {
+      const res = await getMyInfo();
+      setMyInfo(res.data);
+    }
+    getMyInfoApi();
+  }, []);
+
   const [isVisible, setIsVisible] = useState(false);
 
   const renderStory = ({item, index}) => {
@@ -171,7 +186,13 @@ const Home = () => {
               source={{uri: item.profileImg}}
               style={{width: 32, height: 32}}
             />
-            <Text style={{fontSize: 16, fontWeight: '400', lineHeight: 19}}>
+            <Text
+              style={{
+                fontSize: 16,
+
+                lineHeight: 19,
+                fontFamily: fonts.PRETENDARD[500],
+              }}>
               {item.name}
             </Text>
           </TouchableOpacity>
